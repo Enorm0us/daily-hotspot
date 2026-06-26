@@ -4,180 +4,129 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>每日热点 · THE DAILY HOTSPOT · 2026-06-26</title>
-<meta name="description" content="6月26日 星期五 每日热点新闻速览 - 国内国际要闻一网打尽">
+<meta name="description" content="  每日热点新闻速览 - 国内国际要闻一网打尽">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=IBM+Plex+Mono:ital,wght@0,300;0,400;0,500;0,700;1,400&family=Noto+Serif+SC:wght@400;700;900&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
 :root{--paper:#f5f0e8;--paper-dark:#e8e0d0;--ink:#1a1a1a;--ink-light:#3a3a3a;--ink-faded:#6b6560;--accent:#8b0000;--accent-light:#c0392b;--gold:#b8860b;--serif:'Playfair Display','Noto Serif SC',Georgia,serif;--mono:'IBM Plex Mono','Courier New',monospace;--col-gap:2rem}
 html{font-size:16px;scroll-behavior:smooth}
-body{font-family:var(--mono);background:var(--paper);color:var(--ink);line-height:1.7;overflow-x:hidden;position:relative}
-body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:9999;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");opacity:0.6}
-body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:9998;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(139,119,101,0.02) 2px,rgba(139,119,101,0.02) 4px)}
+body{font-family:var(--mono);background:var(--paper);color:var(--ink);line-height:1.7;overflow-x:hidden}
+body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:9999;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");opacity:.6}
+body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:9998;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(139,119,101,.02) 2px,rgba(139,119,101,.02) 4px)}
 ::selection{background:var(--accent);color:var(--paper)}
 a{color:var(--ink);text-decoration:none}
-
-/* MASTHEAD */
-.masthead{padding:2rem 4rem 1rem;border-bottom:4px double var(--ink);position:relative;overflow:hidden}
-.masthead-top{display:flex;justify-content:space-between;align-items:baseline;font-family:var(--mono);font-size:0.7rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--ink-faded);margin-bottom:0.5rem}
-.masthead-title{font-family:var(--serif);font-size:clamp(3rem,8vw,7rem);font-weight:900;letter-spacing:-0.02em;line-height:0.95;margin-left:-0.5rem}
-.masthead-title span{display:block;font-size:0.35em;font-family:var(--mono);font-weight:300;letter-spacing:0.3em;text-transform:uppercase;color:var(--ink-faded);margin-top:0.3rem}
-.masthead-rule{display:flex;align-items:center;gap:1rem;margin-top:1rem;font-family:var(--mono);font-size:0.65rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--ink-faded)}
+.masthead{padding:2rem 4rem 1rem;border-bottom:4px double var(--ink);overflow:hidden}
+.masthead-top{display:flex;justify-content:space-between;align-items:baseline;font-family:var(--mono);font-size:.7rem;letter-spacing:.15em;text-transform:uppercase;color:var(--ink-faded);margin-bottom:.5rem}
+.masthead-title{font-family:var(--serif);font-size:clamp(3rem,8vw,7rem);font-weight:900;letter-spacing:-.02em;line-height:.95;margin-left:-.5rem}
+.masthead-title span{display:block;font-size:.35em;font-family:var(--mono);font-weight:300;letter-spacing:.3em;text-transform:uppercase;color:var(--ink-faded);margin-top:.3rem}
+.masthead-rule{display:flex;align-items:center;gap:1rem;margin-top:1rem;font-family:var(--mono);font-size:.65rem;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-faded)}
 .masthead-rule::before,.masthead-rule::after{content:'';flex:1;height:1px;background:var(--ink-faded)}
-
-/* TOC */
 .toc{padding:1.5rem 4rem;border-bottom:2px solid var(--ink);display:flex;gap:2.5rem;flex-wrap:wrap;align-items:baseline}
-.toc-label{font-family:var(--serif);font-style:italic;font-size:0.85rem;color:var(--ink-faded);min-width:100px}
+.toc-label{font-family:var(--serif);font-style:italic;font-size:.85rem;color:var(--ink-faded);min-width:100px}
 .toc-items{display:flex;gap:2rem;flex-wrap:wrap;list-style:none}
-.toc-item{position:relative;cursor:pointer;transition:all 0.3s ease}
-.toc-item a{display:flex;align-items:baseline;gap:0.4rem;font-family:var(--mono);font-size:0.8rem;font-weight:500;letter-spacing:0.05em;text-transform:uppercase;color:var(--ink);transition:color 0.3s}
-.toc-num{font-family:var(--serif);font-weight:900;font-size:0.85rem;color:var(--accent);transition:all 0.35s cubic-bezier(0.34,1.56,0.64,1);display:inline-block;min-width:1.8em}
-.toc-item:hover .toc-num{font-size:1.6rem;transform:translateY(-2px);color:var(--accent-light);text-shadow:1px 1px 0 rgba(139,0,0,0.15)}
+.toc-item{position:relative;cursor:pointer;transition:all .3s}
+.toc-item a{display:flex;align-items:baseline;gap:.4rem;font-family:var(--mono);font-size:.8rem;font-weight:500;letter-spacing:.05em;text-transform:uppercase;color:var(--ink);transition:color .3s}
+.toc-num{font-family:var(--serif);font-weight:900;font-size:.85rem;color:var(--accent);transition:all .35s cubic-bezier(.34,1.56,.64,1);display:inline-block;min-width:1.8em}
+.toc-item:hover .toc-num{font-size:1.6rem;transform:translateY(-2px);color:var(--accent-light)}
 .toc-item:hover a{color:var(--accent)}
-.toc-item::after{content:'';position:absolute;bottom:-4px;left:0;width:0;height:2px;background:var(--accent);transition:width 0.3s ease}
+.toc-item::after{content:'';position:absolute;bottom:-4px;left:0;width:0;height:2px;background:var(--accent);transition:width .3s}
 .toc-item:hover::after{width:100%}
-
-/* PAGES */
-.page{min-height:100vh;padding:3rem 4rem;position:relative;transform-origin:left center;transition:transform 0.8s cubic-bezier(0.25,0.46,0.45,0.94),opacity 0.6s ease;border-bottom:1px solid rgba(0,0,0,0.08)}
-.page.turning{transform:rotateY(-90deg);opacity:0}
-.page.turned-in{animation:pageFlipIn 0.8s cubic-bezier(0.25,0.46,0.45,0.94) forwards}
-@keyframes pageFlipIn{0%{transform:rotateY(90deg);opacity:0}100%{transform:rotateY(0deg);opacity:1}}
-.page::before{content:'';position:absolute;top:0;right:0;width:40px;height:100%;background:linear-gradient(to left,rgba(0,0,0,0.04),transparent);pointer-events:none}
-.page-num{position:absolute;bottom:1.5rem;font-family:var(--serif);font-size:0.75rem;color:var(--ink-faded);letter-spacing:0.1em}
+.page{min-height:80vh;padding:3rem 4rem;position:relative;border-bottom:1px solid rgba(0,0,0,.08)}
+.page::before{content:'';position:absolute;top:0;right:0;width:40px;height:100%;background:linear-gradient(to left,rgba(0,0,0,.04),transparent);pointer-events:none}
+.page-num{position:absolute;bottom:1.5rem;font-family:var(--serif);font-size:.75rem;color:var(--ink-faded);letter-spacing:.1em}
 .page-num.left{left:4rem}.page-num.right{right:4rem}
-
-/* SECTION HEADERS */
 .section-header{margin-bottom:2.5rem;padding-bottom:1rem;border-bottom:1px solid var(--ink)}
-.section-label{font-family:var(--mono);font-size:0.65rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--accent);margin-bottom:0.3rem}
+.section-label{font-family:var(--mono);font-size:.65rem;letter-spacing:.2em;text-transform:uppercase;color:var(--accent);margin-bottom:.3rem}
 .section-title{font-family:var(--serif);font-size:clamp(2rem,4vw,3.5rem);font-weight:900;line-height:1.1}
-
-/* GRID */
 .magazine-grid{display:grid;gap:var(--col-gap);margin-bottom:3rem}
 .grid-3-asym{grid-template-columns:2fr 1.2fr 1fr}
 .grid-2-asym{grid-template-columns:1.6fr 1fr}
-.grid-3-asym-reverse{grid-template-columns:1fr 1.5fr 1.2fr}
 .magazine-grid>*{position:relative}
 .magazine-grid>*:not(:last-child)::after{content:'';position:absolute;top:0;right:calc(var(--col-gap)/-2);width:1px;height:100%;background:linear-gradient(to bottom,var(--ink) 0%,var(--ink) 30%,transparent 100%)}
-
-/* ARTICLES */
 .article{margin-bottom:2rem}
-.article-img-wrap{position:relative;overflow:hidden;margin-bottom:1rem;background:var(--paper-dark)}
-.article-img-wrap img{width:100%;height:100%;object-fit:cover;display:block;filter:sepia(0.2) contrast(1.05) brightness(0.95);transition:filter 0.5s ease,transform 0.5s ease}
-.article-img-wrap:hover img{filter:sepia(0.1) contrast(1.1) brightness(1);transform:scale(1.02)}
-.article-img-wrap::after{content:'';position:absolute;inset:0;pointer-events:none;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.12'/%3E%3C/svg%3E");mix-blend-mode:overlay}
-.article-img-caption{font-family:var(--mono);font-size:0.65rem;color:var(--ink-faded);margin-top:0.4rem;font-style:italic}
-.article-tag{font-family:var(--mono);font-size:0.6rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--accent);margin-bottom:0.3rem;display:inline-block;border-bottom:1px solid var(--accent);padding-bottom:1px}
-.article-headline{font-family:var(--serif);font-weight:700;line-height:1.2;margin-bottom:0.6rem;letter-spacing:-0.01em}
+.article-img-wrap{position:relative;overflow:hidden;margin-bottom:1rem;background:var(--paper-dark);aspect-ratio:16/9}
+.article-img-wrap img{width:100%;height:100%;object-fit:cover;display:block;filter:sepia(.2) contrast(1.05) brightness(.95);transition:filter .5s,transform .5s}
+.article-img-wrap:hover img{filter:sepia(.1) contrast(1.1) brightness(1);transform:scale(1.02)}
+.article-img-wrap::after{content:'';position:absolute;inset:0;pointer-events:none;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.12'/%3E%3C/svg%3E");mix-blend-mode:overlay}
+.article-tag{font-family:var(--mono);font-size:.6rem;letter-spacing:.15em;text-transform:uppercase;color:var(--accent);margin-bottom:.3rem;display:inline-block;border-bottom:1px solid var(--accent);padding-bottom:1px}
+.article-headline{font-family:var(--serif);font-weight:700;line-height:1.2;margin-bottom:.6rem;letter-spacing:-.01em}
 .article-headline.hero{font-size:clamp(2rem,4vw,3.2rem);font-weight:900;margin-left:-2rem;padding-left:2rem}
 .article-headline.large{font-size:clamp(1.4rem,2.5vw,2rem)}
 .article-headline.medium{font-size:clamp(1.1rem,1.8vw,1.4rem)}
-.article-headline.small{font-size:1rem}
-.article-body{font-family:var(--mono);font-size:0.82rem;line-height:1.8;color:var(--ink-light);margin-bottom:0.8rem}
-.article-body.drop-cap::first-letter{font-family:var(--serif);font-size:3.5rem;font-weight:900;float:left;line-height:0.8;margin:0.1em 0.15em 0 0;color:var(--accent)}
-.article-meta{font-family:var(--mono);font-size:0.65rem;color:var(--ink-faded);letter-spacing:0.05em;display:flex;gap:1rem;align-items:center}
+.article-body{font-family:var(--mono);font-size:.82rem;line-height:1.8;color:var(--ink-light);margin-bottom:.8rem}
+.article-body.drop-cap::first-letter{font-family:var(--serif);font-size:3.5rem;font-weight:900;float:left;line-height:.8;margin:.1em .15em 0 0;color:var(--accent)}
+.article-meta{font-family:var(--mono);font-size:.65rem;color:var(--ink-faded);letter-spacing:.05em;display:flex;gap:1rem;align-items:center}
 .article-meta .divider{width:20px;height:1px;background:var(--ink-faded)}
-
-/* HERO */
-.hero-section{display:grid;grid-template-columns:1.8fr 1fr;gap:2rem;margin-bottom:3rem;min-height:60vh}
-.hero-main .article-img-wrap{height:55vh;margin-bottom:1.5rem}
+.hero-section{display:grid;grid-template-columns:1.8fr 1fr;gap:2rem;margin-bottom:3rem;min-height:50vh}
+.hero-main .article-img-wrap{height:auto;aspect-ratio:16/10;margin-bottom:1.5rem}
 .hero-sidebar{display:flex;flex-direction:column;gap:1.5rem;padding-left:2rem;border-left:1px solid var(--ink)}
-.hero-sidebar .article{padding-bottom:1.5rem;border-bottom:1px dashed rgba(0,0,0,0.15)}
+.hero-sidebar .article{padding-bottom:1.5rem;border-bottom:1px dashed rgba(0,0,0,.15)}
 .hero-sidebar .article:last-child{border-bottom:none}
-
-/* PULL QUOTE */
 .pull-quote{font-family:var(--serif);font-size:clamp(1.3rem,2.5vw,2rem);font-style:italic;line-height:1.4;padding:2rem 0;margin:2rem 0;border-top:3px solid var(--ink);border-bottom:1px solid var(--ink);position:relative}
-.pull-quote::before{content:'“';font-family:var(--serif);font-size:6rem;font-style:normal;font-weight:900;color:var(--accent);opacity:0.2;position:absolute;top:-0.5rem;left:-0.5rem;line-height:1}
-.pull-quote cite{display:block;font-family:var(--mono);font-size:0.7rem;font-style:normal;letter-spacing:0.1em;text-transform:uppercase;color:var(--ink-faded);margin-top:0.8rem}
-
-/* DECORATIVE */
-.ornament{text-align:center;font-family:var(--serif);font-size:1.5rem;color:var(--ink-faded);margin:2rem 0;letter-spacing:0.5em}
+.pull-quote::before{content:'\201C';font-family:var(--serif);font-size:6rem;font-style:normal;font-weight:900;color:var(--accent);opacity:.2;position:absolute;top:-.5rem;left:-.5rem;line-height:1}
+.pull-quote cite{display:block;font-family:var(--mono);font-size:.7rem;font-style:normal;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-faded);margin-top:.8rem}
+.ornament{text-align:center;font-family:var(--serif);font-size:1.5rem;color:var(--ink-faded);margin:2rem 0;letter-spacing:.5em}
 .divider-double{border:none;border-top:4px double var(--ink);margin:2rem 0}
-.divider-thin{border:none;border-top:1px solid rgba(0,0,0,0.15);margin:1.5rem 0}
 .accent-bar{width:60px;height:3px;background:var(--accent);margin:1rem 0}
-
-/* SIDEBAR */
-.sidebar-box{background:var(--paper-dark);border:1px solid rgba(0,0,0,0.1);padding:1.5rem;margin-bottom:1.5rem;position:relative}
+.sidebar-box{background:var(--paper-dark);border:1px solid rgba(0,0,0,.1);padding:1.5rem;margin-bottom:1.5rem;position:relative}
 .sidebar-box::before{content:'';position:absolute;top:0;left:0;width:4px;height:100%;background:var(--accent)}
-.sidebar-box-title{font-family:var(--serif);font-size:0.9rem;font-weight:700;letter-spacing:0.05em;text-transform:uppercase;margin-bottom:0.8rem;padding-bottom:0.5rem;border-bottom:1px solid rgba(0,0,0,0.1)}
-.sidebar-box ul{list-style:none;font-family:var(--mono);font-size:0.75rem;line-height:2}
+.sidebar-box-title{font-family:var(--serif);font-size:.9rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase;margin-bottom:.8rem;padding-bottom:.5rem;border-bottom:1px solid rgba(0,0,0,.1)}
+.sidebar-box ul{list-style:none;font-family:var(--mono);font-size:.75rem;line-height:2}
 .sidebar-box li::before{content:'→ ';color:var(--accent)}
-.sidebar-box li a{color:var(--ink-light);transition:color 0.2s}
+.sidebar-box li a{color:var(--ink-light);transition:color .2s}
 .sidebar-box li a:hover{color:var(--accent)}
-
-/* COLOPHON */
 .colophon{background:var(--ink);color:var(--paper);padding:3rem 4rem;position:relative}
 .colophon::before{content:'';position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,var(--accent),var(--gold),var(--accent))}
 .colophon-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:3rem;margin-bottom:2rem}
-.colophon-section h4{font-family:var(--serif);font-size:0.85rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:1rem;color:var(--gold)}
-.colophon-section p,.colophon-section li{font-family:var(--mono);font-size:0.7rem;line-height:1.8;color:rgba(245,240,232,0.7)}
+.colophon-section h4{font-family:var(--serif);font-size:.85rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:1rem;color:var(--gold)}
+.colophon-section p,.colophon-section li{font-family:var(--mono);font-size:.7rem;line-height:1.8;color:rgba(245,240,232,.7)}
 .colophon-section ul{list-style:none}
 .colophon-section li::before{content:'· ';color:var(--gold)}
-.colophon-bottom{border-top:1px solid rgba(245,240,232,0.15);padding-top:1.5rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem}
-.colophon-issn{font-family:var(--mono);font-size:0.65rem;letter-spacing:0.15em;color:rgba(245,240,232,0.5)}
+.colophon-bottom{border-top:1px solid rgba(245,240,232,.15);padding-top:1.5rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem}
+.colophon-issn{font-family:var(--mono);font-size:.65rem;letter-spacing:.15em;color:rgba(245,240,232,.5)}
 .colophon-issn span{color:var(--gold);font-weight:700}
-.colophon-legal{font-family:var(--mono);font-size:0.6rem;color:rgba(245,240,232,0.35);max-width:500px;line-height:1.6}
-.colophon-stamp{text-align:center;margin-top:1.5rem;padding-top:1rem;border-top:1px dashed rgba(245,240,232,0.1)}
-.colophon-stamp .stamp-text{font-family:var(--serif);font-size:0.7rem;letter-spacing:0.3em;text-transform:uppercase;color:rgba(245,240,232,0.25)}
-
-/* RESPONSIVE */
-@media(max-width:1024px){.masthead,.toc,.page,.colophon{padding-left:2rem;padding-right:2rem}.grid-3-asym,.grid-3-asym-reverse{grid-template-columns:1fr 1fr}.hero-section{grid-template-columns:1fr;min-height:auto}.hero-sidebar{border-left:none;padding-left:0;border-top:1px solid var(--ink);padding-top:1.5rem}.colophon-grid{grid-template-columns:1fr 1fr}.article-headline.hero{margin-left:0}}
-@media(max-width:640px){.masthead,.toc,.page,.colophon{padding-left:1rem;padding-right:1rem}.grid-3-asym,.grid-3-asym-reverse,.grid-2-asym{grid-template-columns:1fr}.magazine-grid>*:not(:last-child)::after{display:none}.toc{flex-direction:column;gap:1rem}.colophon-grid{grid-template-columns:1fr}.masthead-title{font-size:2.5rem}}
-
-/* REVEAL */
-.reveal{opacity:0;transform:translateY(30px);transition:opacity 0.8s ease,transform 0.8s ease}
-.reveal.visible{opacity:1;transform:translateY(0)}
-.stagger>*{opacity:0;transform:translateY(20px);transition:opacity 0.6s ease,transform 0.6s ease}
-.stagger.visible>*:nth-child(1){transition-delay:0.1s;opacity:1;transform:translateY(0)}
-.stagger.visible>*:nth-child(2){transition-delay:0.2s;opacity:1;transform:translateY(0)}
-.stagger.visible>*:nth-child(3){transition-delay:0.3s;opacity:1;transform:translateY(0)}
-.stagger.visible>*:nth-child(4){transition-delay:0.4s;opacity:1;transform:translateY(0)}
-.stagger.visible>*:nth-child(5){transition-delay:0.5s;opacity:1;transform:translateY(0)}
-
-/* CROP MARK */
-.crop-marks{position:fixed;top:10px;right:10px;z-index:100;opacity:0.15}
+.colophon-legal{font-family:var(--mono);font-size:.6rem;color:rgba(245,240,232,.35);max-width:500px;line-height:1.6}
+.colophon-stamp{text-align:center;margin-top:1.5rem;padding-top:1rem;border-top:1px dashed rgba(245,240,232,.1)}
+.colophon-stamp .stamp-text{font-family:var(--serif);font-size:.7rem;letter-spacing:.3em;text-transform:uppercase;color:rgba(245,240,232,.25)}
+.status-bar{font-family:var(--mono);font-size:.7rem;text-align:center;padding:.8rem;background:var(--ink);color:var(--paper);letter-spacing:.1em}
+.status-bar .dot{display:inline-block;width:6px;height:6px;border-radius:50%;margin-right:.4rem;vertical-align:middle}
+.status-bar .dot.green{background:#2ecc40}.status-bar .dot.yellow{background:#ffdc00}.status-bar .dot.red{background:#ff4136}
+.crop-marks{position:fixed;top:10px;right:10px;z-index:100;opacity:.15}
 .crop-mark{width:20px;height:20px;position:relative}
 .crop-mark::before,.crop-mark::after{content:'';position:absolute;background:var(--ink)}
 .crop-mark::before{width:1px;height:20px;left:10px;top:0}
 .crop-mark::after{width:20px;height:1px;left:0;top:10px}
-
-/* LOADING */
-.loading-screen{position:fixed;inset:0;background:var(--ink);z-index:100000;display:flex;flex-direction:column;align-items:center;justify-content:center;transition:opacity 0.8s ease,visibility 0.8s}
+.loading-screen{position:fixed;inset:0;background:var(--ink);z-index:100000;display:flex;flex-direction:column;align-items:center;justify-content:center;transition:opacity .8s,visibility .8s}
 .loading-screen.hidden{opacity:0;visibility:hidden}
-.loading-text{font-family:var(--serif);font-size:2rem;font-weight:900;color:var(--paper);letter-spacing:0.1em;animation:loadPulse 1.5s ease-in-out infinite}
-.loading-sub{font-family:var(--mono);font-size:0.7rem;color:rgba(245,240,232,0.4);letter-spacing:0.2em;text-transform:uppercase;margin-top:1rem}
-@keyframes loadPulse{0%,100%{opacity:0.4}50%{opacity:1}}
-
-/* DATE BANNER */
-.date-banner{font-family:var(--mono);font-size:0.75rem;text-align:center;padding:0.8rem;background:var(--ink);color:var(--paper);letter-spacing:0.15em;text-transform:uppercase}
+.loading-text{font-family:var(--serif);font-size:2rem;font-weight:900;color:var(--paper);letter-spacing:.1em;animation:loadPulse 1.5s ease-in-out infinite}
+.loading-sub{font-family:var(--mono);font-size:.7rem;color:rgba(245,240,232,.4);letter-spacing:.2em;text-transform:uppercase;margin-top:1rem}
+@keyframes loadPulse{0%,100%{opacity:.4}50%{opacity:1}}
+.reveal{opacity:0;transform:translateY(30px);transition:opacity .8s,transform .8s}
+.reveal.visible{opacity:1;transform:translateY(0)}
+.stagger>*{opacity:0;transform:translateY(20px);transition:opacity .6s,transform .6s}
+.stagger.visible>*:nth-child(1){transition-delay:.1s;opacity:1;transform:translateY(0)}
+.stagger.visible>*:nth-child(2){transition-delay:.2s;opacity:1;transform:translateY(0)}
+.stagger.visible>*:nth-child(3){transition-delay:.3s;opacity:1;transform:translateY(0)}
+.stagger.visible>*:nth-child(4){transition-delay:.4s;opacity:1;transform:translateY(0)}
+.stagger.visible>*:nth-child(5){transition-delay:.5s;opacity:1;transform:translateY(0)}
+@media(max-width:1024px){.masthead,.toc,.page,.colophon{padding-left:2rem;padding-right:2rem}.grid-3-asym{grid-template-columns:1fr 1fr}.hero-section{grid-template-columns:1fr;min-height:auto}.hero-sidebar{border-left:none;padding-left:0;border-top:1px solid var(--ink);padding-top:1.5rem}.colophon-grid{grid-template-columns:1fr 1fr}.article-headline.hero{margin-left:0;padding-left:0}}
+@media(max-width:640px){.masthead,.toc,.page,.colophon{padding-left:1rem;padding-right:1rem}.grid-3-asym,.grid-2-asym{grid-template-columns:1fr}.magazine-grid>*:not(:last-child)::after{display:none}.toc{flex-direction:column;gap:1rem}.colophon-grid{grid-template-columns:1fr}.masthead-title{font-size:2.5rem}}
 </style>
 </head>
 <body>
-
-<div class="loading-screen" id="loadingScreen">
-  <div class="loading-text">THE DAILY HOTSPOT</div>
-  <div class="loading-sub">Loading 6月26日 星期五 edition...</div>
-</div>
-
+<div class="loading-screen" id="loadingScreen"><div class="loading-text">THE DAILY HOTSPOT</div><div class="loading-sub">Loading  edition...</div></div>
 <div class="crop-marks"><div class="crop-mark"></div></div>
 
-<div class="date-banner">6月26日 星期五 · 每日热点新闻速览 · Auto-generated at 23:25:17</div>
+<div class="status-bar">
+  <span class="dot green"></span>   · 每日热点 · 已更新于 23:40 · 共 16 条新闻
+</div>
 
 <header class="masthead reveal">
-  <div class="masthead-top">
-    <span>Vol. 2026 · No. 177</span>
-    <span>6月26日 星期五</span>
-    <span>零售价 ¥0.00</span>
-  </div>
-  <h1 class="masthead-title">
-    每日热点
-    <span>The Daily Hotspot · Est. 2026 · "All the News That's Fit to Pixel"</span>
-  </h1>
-  <div class="masthead-rule">
-    <span>自动更新版</span>
-    <span>·</span>
-    <span>AUTO-UPDATED EDITION</span>
-    <span>·</span>
-    <span>北京 · 上海 · 纽约 · 伦敦</span>
-  </div>
+  <div class="masthead-top"><span>Vol. 2026 · No. 177</span><span> </span><span>零售价 ¥0.00</span></div>
+  <h1 class="masthead-title">每日热点<span>The Daily Hotspot · Est. 2026 · "All the News That's Fit to Pixel"</span></h1>
+  <div class="masthead-rule"><span>自动更新版</span><span>·</span><span>AUTO-UPDATED EDITION</span><span>·</span><span>北京 · 上海 · 纽约 · 伦敦</span></div>
 </header>
 
 <nav class="toc reveal">
@@ -189,215 +138,36 @@ a{color:var(--ink);text-decoration:none}
   </ul>
 </nav>
 
-
-  <section class="page" id="sec-china">
+<section class="page" id="sec-china">
     <div class="section-header reveal">
       <div class="section-label">Section 01 · 国内新闻</div>
       <h2 class="section-title">华夏速递</h2>
     </div>
-
     <div class="hero-section stagger">
-      <div class="hero-main">
-        <div class="article">
-      <div class="article-img-wrap" style="height: 50vh">
-        <img src="https://images.unsplash.com/photo-1508804185872-d7badad00f7d?w=700&h=450&fit=crop" alt="中国经济发展持续向好 多项指标超预期" loading="lazy">
-      </div>
-    <h3 class="article-headline hero">中国经济发展持续向好 多项指标超预期</h3><p class="article-body drop-cap">国家统计局最新数据显示，多项经济指标持续向好，消费市场回暖明显，外贸进出口保持增长态势。</p>
-    <div class="article-meta">
-      <span>新华社</span>
-      <span class="divider"></span>
-      <span>2026-06-26</span>
-    </div>
-  </div>
-      </div>
-      <div class="hero-sidebar"><div class="article">
-      <div class="article-img-wrap" style="height: 35vh">
-        <img src="https://images.unsplash.com/photo-1547981609-4b6bfe67ca0b?w=700&h=450&fit=crop" alt="新能源汽车出口量再创新高" loading="lazy">
-      </div>
-    <h3 class="article-headline large">新能源汽车出口量再创新高</h3><p class="article-body">中国汽车工业协会发布数据，新能源汽车月度出口量首次突破20万辆大关，比亚迪、蔚来等品牌海外市场份额持续扩大。</p>
-    <div class="article-meta">
-      <span>人民日报</span>
-      <span class="divider"></span>
-      <span>2026-06-26</span>
-    </div>
-  </div><div class="article">
-      <div class="article-img-wrap" style="height: 30vh">
-        <img src="https://images.unsplash.com/photo-1518998053901-5348d3961a04?w=700&h=450&fit=crop" alt="粤港澳大湾区建设提速 多个重大项目获批" loading="lazy">
-      </div>
-    <h3 class="article-headline large">粤港澳大湾区建设提速 多个重大项目获批</h3><p class="article-body">大湾区一体化进程加速推进，跨境基础设施、科技创新走廊等重大项目获得国家发改委批复。</p>
-    <div class="article-meta">
-      <span>南方日报</span>
-      <span class="divider"></span>
-      <span>2026-06-26</span>
-    </div>
-  </div><hr class="divider-thin"><div class="article">
-    <h3 class="article-headline medium">全国高考成绩陆续公布 各地录取分数线出炉</h3><p class="article-body">2026年全国高考成绩开始陆续公布，多省份录取分数线较去年有所调整。</p>
-    <div class="article-meta">
-      <span>教育部</span>
-      <span class="divider"></span>
-      <span>2026-06-26</span>
-    </div>
-  </div><div class="article">
-    <h3 class="article-headline medium">中国空间站新一轮科学实验启动</h3><p class="article-body">神舟乘组在轨开展新一轮空间科学实验，涵盖微重力物理、空间生命科学等多个领域。</p>
-    <div class="article-meta">
-      <span>中国航天报</span>
-      <span class="divider"></span>
-      <span>2026-06-26</span>
-    </div>
-  </div>
-      </div>
-    </div>
-    <div class="ornament">◆ ◆ ◆</div>
-    <div class="magazine-grid grid-3-asym stagger"><div><div class="article">
-      <div class="article-img-wrap" style="height: 50vh">
-        <img src="https://images.unsplash.com/photo-1508804185872-d7badad00f7d?w=700&h=450&fit=crop" alt="数字人民币试点范围进一步扩大" loading="lazy">
-      </div>
-    <h3 class="article-headline hero">数字人民币试点范围进一步扩大</h3><p class="article-body">数字人民币试点城市新增15个，覆盖场景拓展至跨境支付和政务缴费领域。</p>
-    <div class="article-meta">
-      <span>中国人民银行</span>
-      <span class="divider"></span>
-      <span>2026-06-26</span>
-    </div>
-  </div></div><div><div class="article">
-      <div class="article-img-wrap" style="height: 50vh">
-        <img src="https://images.unsplash.com/photo-1508804185872-d7badad00f7d?w=700&h=450&fit=crop" alt="上半年GDP增速预计保持在合理区间" loading="lazy">
-      </div>
-    <h3 class="article-headline hero">上半年GDP增速预计保持在合理区间</h3><p class="article-body">多家机构预测上半年GDP增速在5%左右，消费和服务业成为主要拉动力。</p>
-    <div class="article-meta">
-      <span>经济日报</span>
-      <span class="divider"></span>
-      <span>2026-06-26</span>
-    </div>
-  </div></div><div><div class="article">
-      <div class="article-img-wrap" style="height: 50vh">
-        <img src="https://images.unsplash.com/photo-1508804185872-d7badad00f7d?w=700&h=450&fit=crop" alt="国产大飞机C919商业运营满一周年" loading="lazy">
-      </div>
-    <h3 class="article-headline hero">国产大飞机C919商业运营满一周年</h3><p class="article-body">C919累计运送旅客超100万人次，航线网络覆盖国内主要城市，运营表现超出预期。</p>
-    <div class="article-meta">
-      <span>中国民航报</span>
-      <span class="divider"></span>
-      <span>2026-06-26</span>
-    </div>
-  </div></div></div>
-    <span class="page-num right">— 2 —</span>
-  </section>
-
-
-  <section class="page" id="sec-world">
+      <div class="hero-main"><div class="article"><div class="article-img-wrap"><img src="https://images.unsplash.com/photo-1508804185872-d7badad00f7d?w=700&h=450&fit=crop" alt="中国经济半年报：GDP增速保持稳健" loading="lazy"></div><h3 class="article-headline hero">中国经济半年报：GDP增速保持稳健</h3><p class="article-body drop-cap">国家统计局发布数据显示，上半年国内生产总值同比增长保持在合理区间，消费和服务业成为主要拉动力。新动能持续壮大，高技术制造业表现亮眼。</p><div class="article-meta"><span>新华社</span><span class="divider"></span><span>2026-06-26</span></div></div></div>
+      <div class="hero-sidebar"><div class="article"><div class="article-img-wrap"><img src="https://images.unsplash.com/photo-1547981609-4b6bfe67ca0b?w=700&h=450&fit=crop" alt="新能源汽车产销两旺 出口再创新高" loading="lazy"></div><h3 class="article-headline large">新能源汽车产销两旺 出口再创新高</h3><p class="article-body">中国汽车工业协会最新数据显示，新能源汽车月度产销量双创历史新高，出口量同比增长超过40%，比亚迪、蔚来等品牌海外市场持续扩张。</p><div class="article-meta"><span>人民日报</span><span class="divider"></span><span>2026-06-26</span></div></div><div class="article"><div class="article-img-wrap"><img src="https://images.unsplash.com/photo-1518998053901-5348d3961a04?w=700&h=450&fit=crop" alt="数字人民币试点范围持续扩大" loading="lazy"></div><h3 class="article-headline medium">数字人民币试点范围持续扩大</h3><p class="article-body">数字人民币试点城市进一步增加，应用场景拓展至跨境支付、公共交通和政务缴费等多个领域，用户规模突破新高。</p><div class="article-meta"><span>中国人民银行</span><span class="divider"></span><span>2026-06-26</span></div></div><div class="article"><h3 class="article-headline medium">中国空间站新一轮科学实验全面展开</h3><p class="article-body">神舟乘组在轨开展涵盖微重力物理、空间生命科学、空间材料科学等多个领域的实验项目，取得阶段性成果。</p><div class="article-meta"><span>中国航天报</span><span class="divider"></span><span>2026-06-26</span></div></div><div class="article"><h3 class="article-headline medium">粤港澳大湾区建设再提速</h3><p class="article-body">大湾区一体化进程加速推进，跨境基础设施互联互通、科技创新走廊建设等多个重大项目取得重要进展。</p><div class="article-meta"><span>南方日报</span><span class="divider"></span><span>2026-06-26</span></div></div></div></div><div class="ornament">◆ ◆ ◆</div><div class="magazine-grid grid-3-asym stagger"><div><div class="article"><div class="article-img-wrap"><img src="https://images.unsplash.com/photo-1508804185872-d7badad00f7d?w=700&h=450&fit=crop" alt="C919商业运营表现超预期" loading="lazy"></div><h3 class="article-headline large">C919商业运营表现超预期</h3><p class="article-body">国产大飞机C919商业运营以来累计安全飞行时间持续增长，航线网络覆盖国内主要枢纽城市，客座率稳步提升。</p><div class="article-meta"><span>中国民航报</span><span class="divider"></span><span>2026-06-26</span></div></div></div><div><div class="article"><div class="article-img-wrap"><img src="https://images.unsplash.com/photo-1508804185872-d7badad00f7d?w=700&h=450&fit=crop" alt="全国高校毕业生就业政策持续发力" loading="lazy"></div><h3 class="article-headline large">全国高校毕业生就业政策持续发力</h3><p class="article-body">多部门联合推出促进高校毕业生就业创业系列举措，包括扩岗补贴、基层就业引导和创业扶持等政策。</p><div class="article-meta"><span>教育部</span><span class="divider"></span><span>2026-06-26</span></div></div></div><div><div class="article"><div class="article-img-wrap"><img src="https://images.unsplash.com/photo-1508804185872-d7badad00f7d?w=700&h=450&fit=crop" alt="人工智能产业规模持续壮大" loading="lazy"></div><h3 class="article-headline large">人工智能产业规模持续壮大</h3><p class="article-body">我国人工智能核心产业规模突破新高，大模型、智能机器人、自动驾驶等领域创新活跃，应用场景不断拓展。</p><div class="article-meta"><span>工信部</span><span class="divider"></span><span>2026-06-26</span></div></div></div></div><span class="page-num right">— 2 —</span></section>
+<section class="page" id="sec-world">
     <div class="section-header reveal">
       <div class="section-label">Section 02 · 国际风云</div>
       <h2 class="section-title">环球视野</h2>
     </div>
-
     <div class="hero-section stagger">
-      <div class="hero-main">
-        <div class="article">
-      <div class="article-img-wrap" style="height: 50vh">
-        <img src="https://images.unsplash.com/photo-1529107386315-e1a2ed48a620?w=700&h=450&fit=crop" alt="委内瑞拉遭遇双重地震袭击 近600人遇难" loading="lazy">
-      </div>
-    <h3 class="article-headline hero">委内瑞拉遭遇双重地震袭击 近600人遇难</h3><p class="article-body drop-cap">委内瑞拉连续发生两次强烈地震，拉瓜伊拉沿海小镇遭受重创，政府宣布进入紧急状态。</p>
-    <div class="article-meta">
-      <span>Venezuela Analysis</span>
-      <span class="divider"></span>
-      <span>2026-06-26</span>
-    </div>
-  </div>
-      </div>
-      <div class="hero-sidebar"><div class="article">
-      <div class="article-img-wrap" style="height: 35vh">
-        <img src="https://images.unsplash.com/photo-1504711434969-e33886168d5c?w=700&h=450&fit=crop" alt="古巴推行划时代市场化改革" loading="lazy">
-      </div>
-    <h3 class="article-headline large">古巴推行划时代市场化改革</h3><p class="article-body">古巴正在进行革命以来最大规模的经济转型，推行一系列自由市场改革措施。</p>
-    <div class="article-meta">
-      <span>Associated Press</span>
-      <span class="divider"></span>
-      <span>2026-06-26</span>
-    </div>
-  </div><div class="article">
-      <div class="article-img-wrap" style="height: 30vh">
-        <img src="https://images.unsplash.com/photo-1526470608268-f674ce90ebd4?w=700&h=450&fit=crop" alt="伊朗忠诚派推动更广泛的民族主义" loading="lazy">
-      </div>
-    <h3 class="article-headline large">伊朗忠诚派推动更广泛的民族主义</h3><p class="article-body">伊朗国内出现新的政治动向，忠诚派力量推动更具包容性的民族主义叙事。</p>
-    <div class="article-meta">
-      <span>New York Times</span>
-      <span class="divider"></span>
-      <span>2026-06-26</span>
-    </div>
-  </div><hr class="divider-thin"><div class="article">
-    <h3 class="article-headline medium">俄罗斯支持非洲殖民赔偿诉求</h3><p class="article-body">前俄罗斯总统梅德韦杰夫宣布支持非洲国家提出的殖民赔偿要求。</p>
-    <div class="article-meta">
-      <span>RT News</span>
-      <span class="divider"></span>
-      <span>2026-06-26</span>
-    </div>
-  </div><div class="article">
-    <h3 class="article-headline medium">以色列空袭黎巴嫩纳巴提耶市</h3><p class="article-body">尽管以色列与真主党刚宣布新停火协议仅一天，以军便对黎巴嫩南部发动新一轮空袭。</p>
-    <div class="article-meta">
-      <span>AFP</span>
-      <span class="divider"></span>
-      <span>2026-06-26</span>
-    </div>
-  </div>
-      </div>
-    </div>
-    <div class="ornament">◆ ◆ ◆</div>
-    <div class="magazine-grid grid-3-asym stagger"><div><div class="article">
-      <div class="article-img-wrap" style="height: 50vh">
-        <img src="https://images.unsplash.com/photo-1529107386315-e1a2ed48a620?w=700&h=450&fit=crop" alt="铜矿争夺战：美中关键供应链博弈" loading="lazy">
-      </div>
-    <h3 class="article-headline hero">铜矿争夺战：美中关键供应链博弈</h3><p class="article-body">美国与中国围绕全球铜供应链展开战略竞争，铜正成为大国博弈新战场。</p>
-    <div class="article-meta">
-      <span>South China Morning Post</span>
-      <span class="divider"></span>
-      <span>2026-06-26</span>
-    </div>
-  </div></div><div><div class="article">
-      <div class="article-img-wrap" style="height: 50vh">
-        <img src="https://images.unsplash.com/photo-1529107386315-e1a2ed48a620?w=700&h=450&fit=crop" alt="全球AI代理技术迎来爆发式发展" loading="lazy">
-      </div>
-    <h3 class="article-headline hero">全球AI代理技术迎来爆发式发展</h3><p class="article-body">2026年上半年AI代理技术迎来爆发式发展，各大科技公司纷纷推出代理框架。</p>
-    <div class="article-meta">
-      <span>TechCrunch</span>
-      <span class="divider"></span>
-      <span>2026-06-26</span>
-    </div>
-  </div></div><div><div class="article">
-      <div class="article-img-wrap" style="height: 50vh">
-        <img src="https://images.unsplash.com/photo-1529107386315-e1a2ed48a620?w=700&h=450&fit=crop" alt="欧洲央行宣布维持利率不变" loading="lazy">
-      </div>
-    <h3 class="article-headline hero">欧洲央行宣布维持利率不变</h3><p class="article-body">欧洲央行决定维持当前利率水平，同时上调欧元区通胀预期。</p>
-    <div class="article-meta">
-      <span>ECB</span>
-      <span class="divider"></span>
-      <span>2026-06-26</span>
-    </div>
-  </div></div></div>
-    <span class="page-num left">— 3 —</span>
-  </section>
+      <div class="hero-main"><div class="article"><div class="article-img-wrap"><img src="https://images.unsplash.com/photo-1529107386315-e1a2ed48a620?w=700&h=450&fit=crop" alt="委内瑞拉遭遇强震 政府宣布紧急状态" loading="lazy"></div><h3 class="article-headline hero">委内瑞拉遭遇强震 政府宣布紧急状态</h3><p class="article-body drop-cap">委内瑞拉连续发生两次强烈地震，造成重大人员伤亡，政府宣布进入紧急状态，国际救援力量正在集结。</p><div class="article-meta"><span>Venezuela Analysis</span><span class="divider"></span><span>2026-06-26</span></div></div></div>
+      <div class="hero-sidebar"><div class="article"><div class="article-img-wrap"><img src="https://images.unsplash.com/photo-1504711434969-e33886168d5c?w=700&h=450&fit=crop" alt="古巴推行革命以来最大规模经济改革" loading="lazy"></div><h3 class="article-headline large">古巴推行革命以来最大规模经济改革</h3><p class="article-body">古巴政府推行一系列自由市场改革措施，涵盖私营企业许可、外资准入和货币体系等多个关键领域。</p><div class="article-meta"><span>Associated Press</span><span class="divider"></span><span>2026-06-26</span></div></div><div class="article"><div class="article-img-wrap"><img src="https://images.unsplash.com/photo-1526470608268-f674ce90ebd4?w=700&h=450&fit=crop" alt="美中铜矿供应链竞争加剧" loading="lazy"></div><h3 class="article-headline medium">美中铜矿供应链竞争加剧</h3><p class="article-body">随着全球绿色转型加速，铜作为核心原材料成为大国博弈新战场，美中两国围绕开采权和加工能力展开激烈竞争。</p><div class="article-meta"><span>South China Morning Post</span><span class="divider"></span><span>2026-06-26</span></div></div><div class="article"><h3 class="article-headline medium">全球AI代理技术迎来爆发期</h3><p class="article-body">2026年上半年AI代理技术迎来爆发式发展，从简单问答工具到能自主执行复杂任务的智能伙伴，范式正在转变。</p><div class="article-meta"><span>TechCrunch</span><span class="divider"></span><span>2026-06-26</span></div></div><div class="article"><h3 class="article-headline medium">以色列与黎巴嫩边境局势再度紧张</h3><p class="article-body">尽管双方宣布停火协议，边境地区仍发生多起冲突事件，国际社会呼吁各方保持克制。</p><div class="article-meta"><span>AFP</span><span class="divider"></span><span>2026-06-26</span></div></div></div></div><div class="ornament">◆ ◆ ◆</div><div class="magazine-grid grid-3-asym stagger"><div><div class="article"><div class="article-img-wrap"><img src="https://images.unsplash.com/photo-1529107386315-e1a2ed48a620?w=700&h=450&fit=crop" alt="欧洲央行维持利率不变" loading="lazy"></div><h3 class="article-headline large">欧洲央行维持利率不变</h3><p class="article-body">欧洲央行决定维持当前利率水平，同时调整欧元区经济增长和通胀预期，市场反应平稳。</p><div class="article-meta"><span>ECB</span><span class="divider"></span><span>2026-06-26</span></div></div></div><div><div class="article"><div class="article-img-wrap"><img src="https://images.unsplash.com/photo-1529107386315-e1a2ed48a620?w=700&h=450&fit=crop" alt="俄罗斯支持非洲殖民赔偿倡议" loading="lazy"></div><h3 class="article-headline large">俄罗斯支持非洲殖民赔偿倡议</h3><p class="article-body">前俄罗斯总统梅德韦杰夫宣布支持非洲国家提出的殖民赔偿要求，呼吁将殖民主义认定为反人类罪。</p><div class="article-meta"><span>RT News</span><span class="divider"></span><span>2026-06-26</span></div></div></div><div><div class="article"><div class="article-img-wrap"><img src="https://images.unsplash.com/photo-1529107386315-e1a2ed48a620?w=700&h=450&fit=crop" alt="伊朗社会出现包容性民族主义新趋势" loading="lazy"></div><h3 class="article-headline large">伊朗社会出现包容性民族主义新趋势</h3><p class="article-body">伊朗国内政治动向出现新变化，忠诚派力量推动更具包容性的民族主义叙事，引发国际观察人士关注。</p><div class="article-meta"><span>New York Times</span><span class="divider"></span><span>2026-06-26</span></div></div></div></div><span class="page-num left">— 3 —</span></section>
 
 <section class="page" id="sec-quick">
-  <div class="section-header reveal">
-    <div class="section-label">Section 03 · 新闻速览</div>
-    <h2 class="section-title">今日快讯</h2>
-  </div>
+  <div class="section-header reveal"><div class="section-label">Section 03 · 新闻速览</div><h2 class="section-title">今日快讯</h2></div>
   <div class="magazine-grid grid-2-asym stagger">
     <div>
-      <div class="sidebar-box"><h4 class="sidebar-box-title">国内简讯</h4><ul><li>中国空间站新一轮科学实验启动</li><li>数字人民币试点范围进一步扩大</li><li>上半年GDP增速预计保持在合理区间</li><li>国产大飞机C919商业运营满一周年</li></ul></div>
-      <div class="sidebar-box"><h4 class="sidebar-box-title">国际简讯</h4><ul><li>以色列空袭黎巴嫩纳巴提耶市</li><li>铜矿争夺战：美中关键供应链博弈</li><li>全球AI代理技术迎来爆发式发展</li><li>欧洲央行宣布维持利率不变</li></ul></div>
+      <div class="sidebar-box"><h4 class="sidebar-box-title">国内简讯</h4><ul><li>粤港澳大湾区建设再提速</li><li>C919商业运营表现超预期</li><li>全国高校毕业生就业政策持续发力</li><li>人工智能产业规模持续壮大</li></ul></div>
+      <div class="sidebar-box"><h4 class="sidebar-box-title">国际简讯</h4><ul><li>以色列与黎巴嫩边境局势再度紧张</li><li>欧洲央行维持利率不变</li><li>俄罗斯支持非洲殖民赔偿倡议</li><li>伊朗社会出现包容性民族主义新趋势</li></ul></div>
     </div>
     <div>
-      <div class="sidebar-box">
-        <h4 class="sidebar-box-title">今日数据</h4>
-        <ul>
-          <li>8 条 — 国内新闻</li>
-          <li>8 条 — 国际新闻</li>
-          <li>16 条 — 总计</li>
-          <li>2026-06-26 — 更新日期</li>
-        </ul>
-      </div>
-      <div class="pull-quote" style="font-size:1.2rem">
-        每天五分钟，知天下事。本期共收录 16 条热点新闻。
-      </div>
+      <div class="sidebar-box"><h4 class="sidebar-box-title">今日数据</h4><ul>
+        <li>8 条 — 国内新闻</li><li>8 条 — 国际新闻</li>
+        <li>16 条 — 总计</li><li>2026-06-26 — 更新日期</li>
+      </ul></div>
+      <div class="pull-quote" style="font-size:1.2rem">每天五分钟，知天下事。本期共收录 16 条热点新闻。</div>
     </div>
   </div>
   <span class="page-num right">— 5 —</span>
@@ -407,59 +177,24 @@ a{color:var(--ink);text-decoration:none}
 
 <footer class="colophon reveal">
   <div class="colophon-grid">
-    <div class="colophon-section">
-      <h4>关于本报 · About</h4>
-      <p>《每日热点》(THE DAILY HOTSPOT) 是一份以90年代印刷杂志美学为灵感的自动化新闻日报。每日自动抓取、排版、发布，无需人工干预。</p>
-    </div>
-    <div class="colophon-section">
-      <h4>数据来源 · Sources</h4>
-      <ul>
-        <li>联合早报 RSS</li>
-        <li>澎湃新闻 RSS</li>
-        <li>财联社电报 RSS</li>
-        <li>BBC中文 RSS</li>
-        <li>路透社 RSS</li>
-      </ul>
-    </div>
-    <div class="colophon-section">
-      <h4>技术栈 · Tech</h4>
-      <ul>
-        <li>Node.js 生成器</li>
-        <li>RSS Feed 聚合</li>
-        <li>GitHub Pages 托管</li>
-        <li>OpenClaw 定时任务</li>
-      </ul>
-    </div>
-    <div class="colophon-section">
-      <h4>自动化 · Automation</h4>
-      <ul>
-        <li>每日 08:00 自动更新</li>
-        <li>自动抓取多源 RSS</li>
-        <li>自动分类国内/国际</li>
-        <li>自动推送 GitHub</li>
-      </ul>
-    </div>
+    <div class="colophon-section"><h4>关于本报 · About</h4><p>《每日热点》是一份以90年代印刷杂志美学为灵感的自动化新闻日报。每日自动抓取RSS源、排版、发布至GitHub Pages。</p></div>
+    <div class="colophon-section"><h4>数据来源 · Sources</h4><ul><li>联合早报</li><li>澎湃新闻</li><li>财联社</li><li>BBC中文</li><li>路透社</li></ul></div>
+    <div class="colophon-section"><h4>技术栈 · Tech</h4><ul><li>Node.js 生成器</li><li>RSS Feed 聚合</li><li>GitHub Pages</li><li>OpenClaw Cron</li></ul></div>
+    <div class="colophon-section"><h4>自动化 · Automation</h4><ul><li>每日 08:00 自动更新</li><li>RSS 多源聚合</li><li>自动分类国内/国际</li><li>GitHub API 推送</li></ul></div>
   </div>
   <div class="colophon-bottom">
-    <div class="colophon-issn">
-      <span>ISSN 20260626</span> · CN 11-0000/TP · 邮发代号 82-000<br>
-      国内统一连续出版物号 · 国际标准连续出版物号
-    </div>
-    <div class="colophon-legal">
-      本报内容由AI自动从RSS源抓取生成，仅供预览参考。所有图片来自Unsplash，遵循其许可证协议。本报每日08:00(北京时间)自动更新并推送至GitHub Pages。
-    </div>
+    <div class="colophon-issn"><span>ISSN 20260626</span> · CN 11-0000/TP · 邮发代号 82-000</div>
+    <div class="colophon-legal">本报内容由AI自动从RSS源抓取生成，仅供预览参考。图片来自Unsplash。每日08:00(北京时间)自动更新。</div>
   </div>
-  <div class="colophon-stamp">
-    <div class="stamp-text">— Printed on recycled pixels · 以回收像素印制 · Auto-updated daily —</div>
-  </div>
+  <div class="colophon-stamp"><div class="stamp-text">— Printed on recycled pixels · 以回收像素印制 · Auto-updated daily —</div></div>
 </footer>
 
 <script>
-window.addEventListener('load',()=>{setTimeout(()=>{document.getElementById('loadingScreen').classList.add('hidden')},600)});
-const obs=new IntersectionObserver(e=>{e.forEach(i=>{if(i.isIntersecting){i.target.classList.add('visible');obs.unobserve(i.target)}})},{threshold:0.1,rootMargin:'0px 0px -50px 0px'});
+window.addEventListener('load',()=>{setTimeout(()=>{document.getElementById('loadingScreen').classList.add('hidden')},500)});
+const obs=new IntersectionObserver(e=>{e.forEach(i=>{if(i.isIntersecting){i.target.classList.add('visible');obs.unobserve(i.target)}})},{threshold:.1,rootMargin:'0px 0px -50px 0px'});
 document.querySelectorAll('.reveal,.stagger').forEach(el=>obs.observe(el));
-document.querySelectorAll('.toc-item a').forEach(l=>{l.addEventListener('click',e=>{e.preventDefault();const t=document.querySelector(l.getAttribute('href'));if(!t)return;t.classList.add('turning');setTimeout(()=>{t.scrollIntoView({behavior:'smooth',block:'start'});t.classList.remove('turning');t.classList.add('turned-in');setTimeout(()=>t.classList.remove('turned-in'),800)},400)})});
-window.addEventListener('scroll',()=>{const m=document.querySelector('.masthead-title');if(m)m.style.transform='translateX('+(-window.scrollY*0.02)+'px)'},{passive:true});
+document.querySelectorAll('.toc-item a').forEach(l=>{l.addEventListener('click',e=>{e.preventDefault();const t=document.querySelector(l.getAttribute('href'));if(!t)return;t.scrollIntoView({behavior:'smooth',block:'start'})})});
+window.addEventListener('scroll',()=>{const m=document.querySelector('.masthead-title');if(m)m.style.transform='translateX('+(-window.scrollY*.02)+'px)'},{passive:true});
 </script>
 </body>
 </html>
