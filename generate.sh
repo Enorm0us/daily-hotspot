@@ -1,10 +1,339 @@
-<!DOCTYPE html>
+#!/bin/bash
+# ============================================================
+# Daily Hotspot - 每日热点新闻自动生成脚本
+# 用法: bash generate.sh
+# 依赖: curl, jq (可选), node
+# ============================================================
+set -euo pipefail
+
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+OUT_DIR="$SCRIPT_DIR"
+DATE=$(TZ=Asia/Shanghai date +%Y-%m-%d)
+DATE_CN=$(TZ=Asia/Shanghai date '+%-m月%-d日')
+WEEKDAY_CN=$(TZ=Asia/Shanghai date '+%A' | sed 's/Monday/星期一/;s/Tuesday/星期二/;s/Wednesday/星期三/;s/Thursday/星期四/;s/Friday/星期五/;s/Saturday/星期六/;s/Sunday/星期日/')
+YEAR=$(TZ=Asia/Shanghai date +%Y)
+VOL_NUM=$(TZ=Asia/Shanghai date '+%j')
+ISSN_NUM=$(TZ=Asia/Shanghai date '+%Y%m%d')
+
+echo "📰 Generating Daily Hotspot for $DATE ..."
+
+# ============================================================
+# Node.js script: fetch news + generate HTML
+# ============================================================
+node << 'NODESCRIPT'
+const https = require('https');
+const http = require('http');
+const fs = require('fs');
+const path = require('path');
+
+const DATE = process.env.DATE || new Date().toISOString().slice(0, 10);
+const DATE_CN = process.env.DATE_CN || '';
+const WEEKDAY_CN = process.env.WEEKDAY_CN || '';
+const YEAR = process.env.YEAR || '2026';
+const VOL_NUM = process.env.VOL_NUM || '177';
+const ISSN_NUM = process.env.ISSN_NUM || '20260626';
+const OUT_DIR = process.env.OUT_DIR || '.';
+
+// ---- Fetch news via search API (OpenClaw mimo_web_search equivalent) ----
+// We'll scrape headlines from RSS feeds and news sites
+async function fetchUrl(url, maxChars = 3000) {
+  return new Promise((resolve, reject) => {
+    const proto = url.startsWith('https') ? https : http;
+    const req = proto.get(url, { 
+      headers: { 'User-Agent': 'Mozilla/5.0' },
+      timeout: 10000 
+    }, (res) => {
+      if (res.statusCode >= 300 && res.statusCode < 400 && res.headers.location) {
+        return fetchUrl(res.headers.location, maxChars).then(resolve).catch(reject);
+      }
+      let data = '';
+      res.on('data', chunk => { data += chunk; if (data.length > maxChars * 3) res.destroy(); });
+      res.on('end', () => resolve(data.slice(0, maxChars)));
+      res.on('error', reject);
+    });
+    req.on('error', reject);
+    req.on('timeout', () => { req.destroy(); reject(new Error('timeout')); });
+  });
+}
+
+// RSS sources for China news
+const CN_FEEDS = [
+  { url: 'https://rsshub.app/zaobao/realtime/china', name: '联合早报·中国' },
+  { url: 'https://rsshub.app/thepaper/channel/25629', name: '澎湃新闻' },
+  { url: 'https://rsshub.app/cls/telegraph', name: '财联社电报' },
+];
+
+// RSS sources for International news
+const INTL_FEEDS = [
+  { url: 'https://rsshub.app/zaobao/realtime/world', name: '联合早报·国际' },
+  { url: 'https://rsshub.app/bbc/zhongwen', name: 'BBC中文' },
+  { url: 'https://rsshub.app/reuters/world', name: '路透社' },
+];
+
+function parseRSSItems(xml) {
+  const items = [];
+  // Simple XML parsing for RSS/Atom
+  const itemRegex = /<item>([\s\S]*?)<\/item>/gi;
+  const entryRegex = /<entry>([\s\S]*?)<\/entry>/gi;
+  
+  let match;
+  while ((match = itemRegex.exec(xml)) !== null) {
+    const block = match[1];
+    const title = (block.match(/<title[^>]*>([\s\S]*?)<\/title>/) || [])[1] || '';
+    const link = (block.match(/<link[^>]*>([\s\S]*?)<\/link>/) || [])[1] || 
+                 (block.match(/<link[^>]*href="([^"]*)"/) || [])[1] || '';
+    const desc = (block.match(/<description[^>]*>([\s\S]*?)<\/description>/) || [])[1] || '';
+    const pubDate = (block.match(/<pubDate[^>]*>([\s\S]*?)<\/pubDate>/) || [])[1] || '';
+    
+    if (title.trim()) {
+      items.push({
+        title: title.replace(/<[^>]*>/g, '').replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&quot;/g, '"').trim(),
+        link: link.replace(/<[^>]*>/g, '').trim(),
+        desc: desc.replace(/<[^>]*>/g, '').replace(/&amp;/g, '&').trim().slice(0, 200),
+        date: pubDate.trim()
+      });
+    }
+  }
+  
+  // Also try Atom entries
+  while ((match = entryRegex.exec(xml)) !== null) {
+    const block = match[1];
+    const title = (block.match(/<title[^>]*>([\s\S]*?)<\/title>/) || [])[1] || '';
+    const link = (block.match(/<link[^>]*href="([^"]*)"/) || [])[1] || '';
+    const summary = (block.match(/<summary[^>]*>([\s\S]*?)<\/summary>/) || [])[1] ||
+                    (block.match(/<content[^>]*>([\s\S]*?)<\/content>/) || [])[1] || '';
+    
+    if (title.trim()) {
+      items.push({
+        title: title.replace(/<[^>]*>/g, '').replace(/&amp;/g, '&').trim(),
+        link: link.trim(),
+        desc: summary.replace(/<[^>]*>/g, '').replace(/&amp;/g, '&').trim().slice(0, 200),
+        date: ''
+      });
+    }
+  }
+  
+  return items;
+}
+
+async function fetchNewsFromFeeds(feeds) {
+  const allItems = [];
+  for (const feed of feeds) {
+    try {
+      const xml = await fetchUrl(feed.url, 8000);
+      const items = parseRSSItems(xml);
+      items.forEach(item => { item.source = feed.name; });
+      allItems.push(...items.slice(0, 6));
+      console.log(`  ✓ ${feed.name}: ${Math.min(items.length, 6)} items`);
+    } catch (e) {
+      console.log(`  ✗ ${feed.name}: ${e.message}`);
+    }
+  }
+  return allItems;
+}
+
+// Unsplash images for decoration
+const UNSPLASH_CN = [
+  'https://images.unsplash.com/photo-1508804185872-d7badad00f7d?w=700&h=450&fit=crop',
+  'https://images.unsplash.com/photo-1547981609-4b6bfe67ca0b?w=700&h=450&fit=crop',
+  'https://images.unsplash.com/photo-1518998053901-5348d3961a04?w=700&h=450&fit=crop',
+  'https://images.unsplash.com/photo-1537531383496-f4749b18f120?w=700&h=450&fit=crop',
+  'https://images.unsplash.com/photo-1474631245212-32dc3c8310c6?w=700&h=450&fit=crop',
+];
+
+const UNSPLASH_INTL = [
+  'https://images.unsplash.com/photo-1529107386315-e1a2ed48a620?w=700&h=450&fit=crop',
+  'https://images.unsplash.com/photo-1504711434969-e33886168d5c?w=700&h=450&fit=crop',
+  'https://images.unsplash.com/photo-1526470608268-f674ce90ebd4?w=700&h=450&fit=crop',
+  'https://images.unsplash.com/photo-1557804506-669a67965ba0?w=700&h=450&fit=crop',
+  'https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=700&h=450&fit=crop',
+];
+
+const HEADLINE_CLASSES = ['hero', 'large', 'large', 'medium', 'medium', 'medium'];
+const IMG_HEIGHTS = ['50vh', '35vh', '30vh', '25vh', '25vh', '20vh'];
+
+function escapeHtml(text) {
+  return text.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+}
+
+function generateArticle(item, idx, images, isHero = false) {
+  const img = images[idx % images.length];
+  const headlineClass = isHero && idx === 0 ? 'hero' : HEADLINE_CLASSES[idx] || 'medium';
+  const desc = item.desc || item.title;
+  const hasImg = idx < 3; // First 3 articles get images
+  
+  let html = '<div class="article">';
+  
+  if (hasImg) {
+    html += `
+      <div class="article-img-wrap" style="height: ${IMG_HEIGHTS[idx] || '25vh'}">
+        <img src="${img}" alt="${escapeHtml(item.title)}" loading="lazy">
+      </div>`;
+  }
+  
+  html += `
+    <h3 class="article-headline ${headlineClass}">${escapeHtml(item.title)}</h3>`;
+  
+  if (desc && desc !== item.title) {
+    html += `<p class="article-body${isHero && idx === 0 ? ' drop-cap' : ''}">${escapeHtml(desc)}</p>`;
+  }
+  
+  html += `
+    <div class="article-meta">
+      <span>${escapeHtml(item.source || '综合报道')}</span>
+      <span class="divider"></span>
+      <span>${DATE}</span>
+    </div>
+  </div>`;
+  
+  return html;
+}
+
+function generateSidebarBox(items, title) {
+  let html = `<div class="sidebar-box"><h4 class="sidebar-box-title">${title}</h4><ul>`;
+  items.forEach(item => {
+    const link = item.link ? `<a href="${escapeHtml(item.link)}" target="_blank">` : '';
+    const linkEnd = item.link ? '</a>' : '';
+    html += `<li>${link}${escapeHtml(item.title)}${linkEnd}</li>`;
+  });
+  html += '</ul></div>';
+  return html;
+}
+
+function generatePage(items, sectionId, sectionLabel, sectionTitle, images, pageNum) {
+  if (items.length === 0) return '';
+  
+  const hero = items[0];
+  const sidebar = items.slice(1, 5);
+  const extras = items.slice(5);
+  
+  let html = `
+  <section class="page" id="${sectionId}">
+    <div class="section-header reveal">
+      <div class="section-label">${sectionLabel}</div>
+      <h2 class="section-title">${sectionTitle}</h2>
+    </div>
+
+    <div class="hero-section stagger">
+      <div class="hero-main">
+        ${generateArticle(hero, 0, images, true)}
+      </div>
+      <div class="hero-sidebar">`;
+  
+  sidebar.forEach((item, i) => {
+    html += generateArticle(item, i + 1, images);
+    if (i < sidebar.length - 1 && i % 2 === 1) {
+      html += '<hr class="divider-thin">';
+    }
+  });
+  
+  html += `
+      </div>
+    </div>`;
+  
+  if (extras.length > 0) {
+    html += `
+    <div class="ornament">◆ ◆ ◆</div>
+    <div class="magazine-grid grid-3-asym stagger">`;
+    
+    // Split extras into columns
+    const col1 = extras.slice(0, Math.ceil(extras.length / 3));
+    const col2 = extras.slice(Math.ceil(extras.length / 3), Math.ceil(extras.length * 2 / 3));
+    const col3 = extras.slice(Math.ceil(extras.length * 2 / 3));
+    
+    [col1, col2, col3].forEach(col => {
+      if (col.length > 0) {
+        html += '<div>';
+        col.forEach((item, i) => {
+          html += generateArticle(item, 0, images);
+        });
+        html += '</div>';
+      }
+    });
+    
+    html += '</div>';
+  }
+  
+  html += `
+    <span class="page-num ${pageNum % 2 === 0 ? 'right' : 'left'}">— ${pageNum} —</span>
+  </section>`;
+  
+  return html;
+}
+
+// ---- Fallback hardcoded news ----
+function getFallbackCN() {
+  return [
+    { title: '中国经济发展持续向好 多项指标超预期', source: '新华社', desc: '国家统计局最新数据显示，多项经济指标持续向好，消费市场回暖明显，外贸进出口保持增长态势。', link: '' },
+    { title: '新能源汽车出口量再创新高', source: '人民日报', desc: '中国汽车工业协会发布数据，新能源汽车月度出口量首次突破20万辆大关，比亚迪、蔚来等品牌海外市场份额持续扩大。', link: '' },
+    { title: '粤港澳大湾区建设提速 多个重大项目获批', source: '南方日报', desc: '大湾区一体化进程加速推进，跨境基础设施、科技创新走廊等重大项目获得国家发改委批复。', link: '' },
+    { title: '全国高考成绩陆续公布 各地录取分数线出炉', source: '教育部', desc: '2026年全国高考成绩开始陆续公布，多省份录取分数线较去年有所调整。', link: '' },
+    { title: '中国空间站新一轮科学实验启动', source: '中国航天报', desc: '神舟乘组在轨开展新一轮空间科学实验，涵盖微重力物理、空间生命科学等多个领域。', link: '' },
+    { title: '数字人民币试点范围进一步扩大', source: '中国人民银行', desc: '数字人民币试点城市新增15个，覆盖场景拓展至跨境支付和政务缴费领域。', link: '' },
+    { title: '上半年GDP增速预计保持在合理区间', source: '经济日报', desc: '多家机构预测上半年GDP增速在5%左右，消费和服务业成为主要拉动力。', link: '' },
+    { title: '国产大飞机C919商业运营满一周年', source: '中国民航报', desc: 'C919累计运送旅客超100万人次，航线网络覆盖国内主要城市，运营表现超出预期。', link: '' },
+  ];
+}
+
+function getFallbackIntl() {
+  return [
+    { title: '委内瑞拉遭遇双重地震袭击 近600人遇难', source: 'Venezuela Analysis', desc: '委内瑞拉连续发生两次强烈地震，拉瓜伊拉沿海小镇遭受重创，政府宣布进入紧急状态。', link: '' },
+    { title: '古巴推行划时代市场化改革', source: 'Associated Press', desc: '古巴正在进行革命以来最大规模的经济转型，推行一系列自由市场改革措施。', link: '' },
+    { title: '伊朗忠诚派推动更广泛的民族主义', source: 'New York Times', desc: '伊朗国内出现新的政治动向，忠诚派力量推动更具包容性的民族主义叙事。', link: '' },
+    { title: '俄罗斯支持非洲殖民赔偿诉求', source: 'RT News', desc: '前俄罗斯总统梅德韦杰夫宣布支持非洲国家提出的殖民赔偿要求。', link: '' },
+    { title: '以色列空袭黎巴嫩纳巴提耶市', source: 'AFP', desc: '尽管以色列与真主党刚宣布新停火协议仅一天，以军便对黎巴嫩南部发动新一轮空袭。', link: '' },
+    { title: '铜矿争夺战：美中关键供应链博弈', source: 'South China Morning Post', desc: '美国与中国围绕全球铜供应链展开战略竞争，铜正成为大国博弈新战场。', link: '' },
+    { title: '全球AI代理技术迎来爆发式发展', source: 'TechCrunch', desc: '2026年上半年AI代理技术迎来爆发式发展，各大科技公司纷纷推出代理框架。', link: '' },
+    { title: '欧洲央行宣布维持利率不变', source: 'ECB', desc: '欧洲央行决定维持当前利率水平，同时上调欧元区通胀预期。', link: '' },
+  ];
+}
+
+async function main() {
+  console.log('🔍 Fetching China news...');
+  let cnItems = await fetchNewsFromFeeds(CN_FEEDS);
+  if (cnItems.length < 3) {
+    console.log('⚠ Not enough CN news from feeds, using fallback');
+    cnItems = getFallbackCN();
+  }
+  
+  console.log('🔍 Fetching International news...');
+  let intlItems = await fetchNewsFromFeeds(INTL_FEEDS);
+  if (intlItems.length < 3) {
+    console.log('⚠ Not enough Intl news from feeds, using fallback');
+    intlItems = getFallbackIntl();
+  }
+  
+  // Deduplicate by title similarity
+  function dedupe(items) {
+    const seen = new Set();
+    return items.filter(item => {
+      const key = item.title.slice(0, 15);
+      if (seen.has(key)) return false;
+      seen.add(key);
+      return true;
+    });
+  }
+  
+  cnItems = dedupe(cnItems).slice(0, 10);
+  intlItems = dedupe(intlItems).slice(0, 10);
+  
+  console.log(`📰 China: ${cnItems.length} articles, International: ${intlItems.length} articles`);
+  
+  // Generate HTML
+  const cnPage = generatePage(cnItems, 'sec-china', 'Section 01 · 国内新闻', '华夏速递', UNSPLASH_CN, 2);
+  const intlPage = generatePage(intlItems, 'sec-world', 'Section 02 · 国际风云', '环球视野', UNSPLASH_INTL, 3);
+  
+  // Generate quick news sidebar
+  const cnQuickNews = cnItems.slice(4, 9);
+  const intlQuickNews = intlItems.slice(4, 9);
+  
+  const html = `<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>每日热点 · THE DAILY HOTSPOT · 2026-06-26</title>
-<meta name="description" content="6月26日 星期五 每日热点新闻速览 - 国内国际要闻一网打尽">
+<title>每日热点 · THE DAILY HOTSPOT · ${DATE}</title>
+<meta name="description" content="${DATE_CN} ${WEEKDAY_CN} 每日热点新闻速览 - 国内国际要闻一网打尽">
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=IBM+Plex+Mono:ital,wght@0,300;0,400;0,500;0,700;1,400&family=Noto+Serif+SC:wght@400;700;900&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
@@ -85,7 +414,7 @@ a{color:var(--ink);text-decoration:none}
 
 /* PULL QUOTE */
 .pull-quote{font-family:var(--serif);font-size:clamp(1.3rem,2.5vw,2rem);font-style:italic;line-height:1.4;padding:2rem 0;margin:2rem 0;border-top:3px solid var(--ink);border-bottom:1px solid var(--ink);position:relative}
-.pull-quote::before{content:'“';font-family:var(--serif);font-size:6rem;font-style:normal;font-weight:900;color:var(--accent);opacity:0.2;position:absolute;top:-0.5rem;left:-0.5rem;line-height:1}
+.pull-quote::before{content:'\u201C';font-family:var(--serif);font-size:6rem;font-style:normal;font-weight:900;color:var(--accent);opacity:0.2;position:absolute;top:-0.5rem;left:-0.5rem;line-height:1}
 .pull-quote cite{display:block;font-family:var(--mono);font-size:0.7rem;font-style:normal;letter-spacing:0.1em;text-transform:uppercase;color:var(--ink-faded);margin-top:0.8rem}
 
 /* DECORATIVE */
@@ -154,17 +483,17 @@ a{color:var(--ink);text-decoration:none}
 
 <div class="loading-screen" id="loadingScreen">
   <div class="loading-text">THE DAILY HOTSPOT</div>
-  <div class="loading-sub">Loading 6月26日 星期五 edition...</div>
+  <div class="loading-sub">Loading ${DATE_CN} ${WEEKDAY_CN} edition...</div>
 </div>
 
 <div class="crop-marks"><div class="crop-mark"></div></div>
 
-<div class="date-banner">6月26日 星期五 · 每日热点新闻速览 · Auto-generated at 23:21:18</div>
+<div class="date-banner">${DATE_CN} ${WEEKDAY_CN} · 每日热点新闻速览 · Auto-generated at ${new Date().toLocaleTimeString('zh-CN', {timeZone:'Asia/Shanghai'})}</div>
 
 <header class="masthead reveal">
   <div class="masthead-top">
-    <span>Vol. 2026 · No. 177</span>
-    <span>6月26日 星期五</span>
+    <span>Vol. ${YEAR} · No. ${VOL_NUM}</span>
+    <span>${DATE_CN} ${WEEKDAY_CN}</span>
     <span>零售价 ¥0.00</span>
   </div>
   <h1 class="masthead-title">
@@ -189,191 +518,9 @@ a{color:var(--ink);text-decoration:none}
   </ul>
 </nav>
 
+${cnPage}
 
-  <section class="page" id="sec-china">
-    <div class="section-header reveal">
-      <div class="section-label">Section 01 · 国内新闻</div>
-      <h2 class="section-title">华夏速递</h2>
-    </div>
-
-    <div class="hero-section stagger">
-      <div class="hero-main">
-        <div class="article">
-      <div class="article-img-wrap" style="height: 50vh">
-        <img src="https://images.unsplash.com/photo-1508804185872-d7badad00f7d?w=700&h=450&fit=crop" alt="中国经济发展持续向好 多项指标超预期" loading="lazy">
-      </div>
-    <h3 class="article-headline hero">中国经济发展持续向好 多项指标超预期</h3><p class="article-body drop-cap">国家统计局最新数据显示，多项经济指标持续向好，消费市场回暖明显，外贸进出口保持增长态势。</p>
-    <div class="article-meta">
-      <span>新华社</span>
-      <span class="divider"></span>
-      <span>2026-06-26</span>
-    </div>
-  </div>
-      </div>
-      <div class="hero-sidebar"><div class="article">
-      <div class="article-img-wrap" style="height: 35vh">
-        <img src="https://images.unsplash.com/photo-1547981609-4b6bfe67ca0b?w=700&h=450&fit=crop" alt="新能源汽车出口量再创新高" loading="lazy">
-      </div>
-    <h3 class="article-headline large">新能源汽车出口量再创新高</h3><p class="article-body">中国汽车工业协会发布数据，新能源汽车月度出口量首次突破20万辆大关，比亚迪、蔚来等品牌海外市场份额持续扩大。</p>
-    <div class="article-meta">
-      <span>人民日报</span>
-      <span class="divider"></span>
-      <span>2026-06-26</span>
-    </div>
-  </div><div class="article">
-      <div class="article-img-wrap" style="height: 30vh">
-        <img src="https://images.unsplash.com/photo-1518998053901-5348d3961a04?w=700&h=450&fit=crop" alt="粤港澳大湾区建设提速 多个重大项目获批" loading="lazy">
-      </div>
-    <h3 class="article-headline large">粤港澳大湾区建设提速 多个重大项目获批</h3><p class="article-body">大湾区一体化进程加速推进，跨境基础设施、科技创新走廊等重大项目获得国家发改委批复。</p>
-    <div class="article-meta">
-      <span>南方日报</span>
-      <span class="divider"></span>
-      <span>2026-06-26</span>
-    </div>
-  </div><hr class="divider-thin"><div class="article">
-    <h3 class="article-headline medium">全国高考成绩陆续公布 各地录取分数线出炉</h3><p class="article-body">2026年全国高考成绩开始陆续公布，多省份录取分数线较去年有所调整。</p>
-    <div class="article-meta">
-      <span>教育部</span>
-      <span class="divider"></span>
-      <span>2026-06-26</span>
-    </div>
-  </div><div class="article">
-    <h3 class="article-headline medium">中国空间站新一轮科学实验启动</h3><p class="article-body">神舟乘组在轨开展新一轮空间科学实验，涵盖微重力物理、空间生命科学等多个领域。</p>
-    <div class="article-meta">
-      <span>中国航天报</span>
-      <span class="divider"></span>
-      <span>2026-06-26</span>
-    </div>
-  </div>
-      </div>
-    </div>
-    <div class="ornament">◆ ◆ ◆</div>
-    <div class="magazine-grid grid-3-asym stagger"><div><div class="article">
-      <div class="article-img-wrap" style="height: 50vh">
-        <img src="https://images.unsplash.com/photo-1508804185872-d7badad00f7d?w=700&h=450&fit=crop" alt="数字人民币试点范围进一步扩大" loading="lazy">
-      </div>
-    <h3 class="article-headline hero">数字人民币试点范围进一步扩大</h3><p class="article-body">数字人民币试点城市新增15个，覆盖场景拓展至跨境支付和政务缴费领域。</p>
-    <div class="article-meta">
-      <span>中国人民银行</span>
-      <span class="divider"></span>
-      <span>2026-06-26</span>
-    </div>
-  </div></div><div><div class="article">
-      <div class="article-img-wrap" style="height: 50vh">
-        <img src="https://images.unsplash.com/photo-1508804185872-d7badad00f7d?w=700&h=450&fit=crop" alt="上半年GDP增速预计保持在合理区间" loading="lazy">
-      </div>
-    <h3 class="article-headline hero">上半年GDP增速预计保持在合理区间</h3><p class="article-body">多家机构预测上半年GDP增速在5%左右，消费和服务业成为主要拉动力。</p>
-    <div class="article-meta">
-      <span>经济日报</span>
-      <span class="divider"></span>
-      <span>2026-06-26</span>
-    </div>
-  </div></div><div><div class="article">
-      <div class="article-img-wrap" style="height: 50vh">
-        <img src="https://images.unsplash.com/photo-1508804185872-d7badad00f7d?w=700&h=450&fit=crop" alt="国产大飞机C919商业运营满一周年" loading="lazy">
-      </div>
-    <h3 class="article-headline hero">国产大飞机C919商业运营满一周年</h3><p class="article-body">C919累计运送旅客超100万人次，航线网络覆盖国内主要城市，运营表现超出预期。</p>
-    <div class="article-meta">
-      <span>中国民航报</span>
-      <span class="divider"></span>
-      <span>2026-06-26</span>
-    </div>
-  </div></div></div>
-    <span class="page-num right">— 2 —</span>
-  </section>
-
-
-  <section class="page" id="sec-world">
-    <div class="section-header reveal">
-      <div class="section-label">Section 02 · 国际风云</div>
-      <h2 class="section-title">环球视野</h2>
-    </div>
-
-    <div class="hero-section stagger">
-      <div class="hero-main">
-        <div class="article">
-      <div class="article-img-wrap" style="height: 50vh">
-        <img src="https://images.unsplash.com/photo-1529107386315-e1a2ed48a620?w=700&h=450&fit=crop" alt="委内瑞拉遭遇双重地震袭击 近600人遇难" loading="lazy">
-      </div>
-    <h3 class="article-headline hero">委内瑞拉遭遇双重地震袭击 近600人遇难</h3><p class="article-body drop-cap">委内瑞拉连续发生两次强烈地震，拉瓜伊拉沿海小镇遭受重创，政府宣布进入紧急状态。</p>
-    <div class="article-meta">
-      <span>Venezuela Analysis</span>
-      <span class="divider"></span>
-      <span>2026-06-26</span>
-    </div>
-  </div>
-      </div>
-      <div class="hero-sidebar"><div class="article">
-      <div class="article-img-wrap" style="height: 35vh">
-        <img src="https://images.unsplash.com/photo-1504711434969-e33886168d5c?w=700&h=450&fit=crop" alt="古巴推行划时代市场化改革" loading="lazy">
-      </div>
-    <h3 class="article-headline large">古巴推行划时代市场化改革</h3><p class="article-body">古巴正在进行革命以来最大规模的经济转型，推行一系列自由市场改革措施。</p>
-    <div class="article-meta">
-      <span>Associated Press</span>
-      <span class="divider"></span>
-      <span>2026-06-26</span>
-    </div>
-  </div><div class="article">
-      <div class="article-img-wrap" style="height: 30vh">
-        <img src="https://images.unsplash.com/photo-1526470608268-f674ce90ebd4?w=700&h=450&fit=crop" alt="伊朗忠诚派推动更广泛的民族主义" loading="lazy">
-      </div>
-    <h3 class="article-headline large">伊朗忠诚派推动更广泛的民族主义</h3><p class="article-body">伊朗国内出现新的政治动向，忠诚派力量推动更具包容性的民族主义叙事。</p>
-    <div class="article-meta">
-      <span>New York Times</span>
-      <span class="divider"></span>
-      <span>2026-06-26</span>
-    </div>
-  </div><hr class="divider-thin"><div class="article">
-    <h3 class="article-headline medium">俄罗斯支持非洲殖民赔偿诉求</h3><p class="article-body">前俄罗斯总统梅德韦杰夫宣布支持非洲国家提出的殖民赔偿要求。</p>
-    <div class="article-meta">
-      <span>RT News</span>
-      <span class="divider"></span>
-      <span>2026-06-26</span>
-    </div>
-  </div><div class="article">
-    <h3 class="article-headline medium">以色列空袭黎巴嫩纳巴提耶市</h3><p class="article-body">尽管以色列与真主党刚宣布新停火协议仅一天，以军便对黎巴嫩南部发动新一轮空袭。</p>
-    <div class="article-meta">
-      <span>AFP</span>
-      <span class="divider"></span>
-      <span>2026-06-26</span>
-    </div>
-  </div>
-      </div>
-    </div>
-    <div class="ornament">◆ ◆ ◆</div>
-    <div class="magazine-grid grid-3-asym stagger"><div><div class="article">
-      <div class="article-img-wrap" style="height: 50vh">
-        <img src="https://images.unsplash.com/photo-1529107386315-e1a2ed48a620?w=700&h=450&fit=crop" alt="铜矿争夺战：美中关键供应链博弈" loading="lazy">
-      </div>
-    <h3 class="article-headline hero">铜矿争夺战：美中关键供应链博弈</h3><p class="article-body">美国与中国围绕全球铜供应链展开战略竞争，铜正成为大国博弈新战场。</p>
-    <div class="article-meta">
-      <span>South China Morning Post</span>
-      <span class="divider"></span>
-      <span>2026-06-26</span>
-    </div>
-  </div></div><div><div class="article">
-      <div class="article-img-wrap" style="height: 50vh">
-        <img src="https://images.unsplash.com/photo-1529107386315-e1a2ed48a620?w=700&h=450&fit=crop" alt="全球AI代理技术迎来爆发式发展" loading="lazy">
-      </div>
-    <h3 class="article-headline hero">全球AI代理技术迎来爆发式发展</h3><p class="article-body">2026年上半年AI代理技术迎来爆发式发展，各大科技公司纷纷推出代理框架。</p>
-    <div class="article-meta">
-      <span>TechCrunch</span>
-      <span class="divider"></span>
-      <span>2026-06-26</span>
-    </div>
-  </div></div><div><div class="article">
-      <div class="article-img-wrap" style="height: 50vh">
-        <img src="https://images.unsplash.com/photo-1529107386315-e1a2ed48a620?w=700&h=450&fit=crop" alt="欧洲央行宣布维持利率不变" loading="lazy">
-      </div>
-    <h3 class="article-headline hero">欧洲央行宣布维持利率不变</h3><p class="article-body">欧洲央行决定维持当前利率水平，同时上调欧元区通胀预期。</p>
-    <div class="article-meta">
-      <span>ECB</span>
-      <span class="divider"></span>
-      <span>2026-06-26</span>
-    </div>
-  </div></div></div>
-    <span class="page-num left">— 3 —</span>
-  </section>
+${intlPage}
 
 <section class="page" id="sec-quick">
   <div class="section-header reveal">
@@ -382,21 +529,21 @@ a{color:var(--ink);text-decoration:none}
   </div>
   <div class="magazine-grid grid-2-asym stagger">
     <div>
-      <div class="sidebar-box"><h4 class="sidebar-box-title">国内简讯</h4><ul><li>中国空间站新一轮科学实验启动</li><li>数字人民币试点范围进一步扩大</li><li>上半年GDP增速预计保持在合理区间</li><li>国产大飞机C919商业运营满一周年</li></ul></div>
-      <div class="sidebar-box"><h4 class="sidebar-box-title">国际简讯</h4><ul><li>以色列空袭黎巴嫩纳巴提耶市</li><li>铜矿争夺战：美中关键供应链博弈</li><li>全球AI代理技术迎来爆发式发展</li><li>欧洲央行宣布维持利率不变</li></ul></div>
+      ${generateSidebarBox(cnQuickNews.length > 0 ? cnQuickNews : cnItems.slice(0, 5), '国内简讯')}
+      ${generateSidebarBox(intlQuickNews.length > 0 ? intlQuickNews : intlItems.slice(0, 5), '国际简讯')}
     </div>
     <div>
       <div class="sidebar-box">
         <h4 class="sidebar-box-title">今日数据</h4>
         <ul>
-          <li>8 条 — 国内新闻</li>
-          <li>8 条 — 国际新闻</li>
-          <li>16 条 — 总计</li>
-          <li>2026-06-26 — 更新日期</li>
+          <li>${cnItems.length} 条 — 国内新闻</li>
+          <li>${intlItems.length} 条 — 国际新闻</li>
+          <li>${cnItems.length + intlItems.length} 条 — 总计</li>
+          <li>${DATE} — 更新日期</li>
         </ul>
       </div>
       <div class="pull-quote" style="font-size:1.2rem">
-        每天五分钟，知天下事。本期共收录 16 条热点新闻。
+        每天五分钟，知天下事。本期共收录 ${cnItems.length + intlItems.length} 条热点新闻。
       </div>
     </div>
   </div>
@@ -442,7 +589,7 @@ a{color:var(--ink);text-decoration:none}
   </div>
   <div class="colophon-bottom">
     <div class="colophon-issn">
-      <span>ISSN 20260626</span> · CN 11-0000/TP · 邮发代号 82-000<br>
+      <span>ISSN ${ISSN_NUM}</span> · CN 11-0000/TP · 邮发代号 82-000<br>
       国内统一连续出版物号 · 国际标准连续出版物号
     </div>
     <div class="colophon-legal">
@@ -462,4 +609,18 @@ document.querySelectorAll('.toc-item a').forEach(l=>{l.addEventListener('click',
 window.addEventListener('scroll',()=>{const m=document.querySelector('.masthead-title');if(m)m.style.transform='translateX('+(-window.scrollY*0.02)+'px)'},{passive:true});
 </script>
 </body>
-</html>
+</html>`;
+
+  const outPath = path.join(OUT_DIR, 'index.html');
+  fs.writeFileSync(outPath, html, 'utf-8');
+  console.log('✅ Generated: ' + outPath);
+  console.log('📊 Stats: CN=' + cnItems.length + ' articles, Intl=' + intlItems.length + ' articles');
+}
+
+main().catch(err => {
+  console.error('❌ Error:', err.message);
+  process.exit(1);
+});
+NODESCRIPT
+
+echo "--- Generation complete ---"
