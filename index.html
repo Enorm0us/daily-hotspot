@@ -1,0 +1,1454 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>每日热点 · THE DAILY HOTSPOT · 2026.06.26</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=IBM+Plex+Mono:ital,wght@0,300;0,400;0,500;0,700;1,400&family=Noto+Serif+SC:wght@400;700;900&display=swap" rel="stylesheet">
+<style>
+/* ========== RESET & BASE ========== */
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --paper: #f5f0e8;
+  --paper-dark: #e8e0d0;
+  --ink: #1a1a1a;
+  --ink-light: #3a3a3a;
+  --ink-faded: #6b6560;
+  --accent: #8b0000;
+  --accent-light: #c0392b;
+  --gold: #b8860b;
+  --serif: 'Playfair Display', 'Noto Serif SC', Georgia, serif;
+  --mono: 'IBM Plex Mono', 'Courier New', monospace;
+  --col-gap: 2rem;
+}
+
+html {
+  font-size: 16px;
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--mono);
+  background: var(--paper);
+  color: var(--ink);
+  line-height: 1.7;
+  overflow-x: hidden;
+  position: relative;
+}
+
+/* Paper texture overlay */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9999;
+  background-image:
+    url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+  opacity: 0.6;
+}
+
+/* Subtle paper grain */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9998;
+  background:
+    repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      rgba(139, 119, 101, 0.02) 2px,
+      rgba(139, 119, 101, 0.02) 4px
+    );
+}
+
+::selection {
+  background: var(--accent);
+  color: var(--paper);
+}
+
+a {
+  color: var(--ink);
+  text-decoration: none;
+}
+
+/* ========== MASTHEAD ========== */
+.masthead {
+  padding: 2rem 4rem 1rem;
+  border-bottom: 4px double var(--ink);
+  position: relative;
+  overflow: hidden;
+}
+
+.masthead-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--ink-faded);
+  margin-bottom: 0.5rem;
+}
+
+.masthead-title {
+  font-family: var(--serif);
+  font-size: clamp(3rem, 8vw, 7rem);
+  font-weight: 900;
+  letter-spacing: -0.02em;
+  line-height: 0.95;
+  margin-left: -0.5rem;
+  position: relative;
+}
+
+.masthead-title span {
+  display: block;
+  font-size: 0.35em;
+  font-family: var(--mono);
+  font-weight: 300;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--ink-faded);
+  margin-top: 0.3rem;
+}
+
+.masthead-rule {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 1rem;
+  font-family: var(--mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-faded);
+}
+
+.masthead-rule::before,
+.masthead-rule::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--ink-faded);
+}
+
+/* ========== NAVIGATION (Table of Contents) ========== */
+.toc {
+  padding: 1.5rem 4rem;
+  border-bottom: 2px solid var(--ink);
+  display: flex;
+  gap: 2.5rem;
+  flex-wrap: wrap;
+  align-items: baseline;
+}
+
+.toc-label {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 0.85rem;
+  color: var(--ink-faded);
+  min-width: 100px;
+}
+
+.toc-items {
+  display: flex;
+  gap: 2rem;
+  flex-wrap: wrap;
+  list-style: none;
+}
+
+.toc-item {
+  position: relative;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.toc-item a {
+  display: flex;
+  align-items: baseline;
+  gap: 0.4rem;
+  font-family: var(--mono);
+  font-size: 0.8rem;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--ink);
+  transition: color 0.3s;
+}
+
+.toc-num {
+  font-family: var(--serif);
+  font-weight: 900;
+  font-size: 0.85rem;
+  color: var(--accent);
+  transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+  display: inline-block;
+  min-width: 1.8em;
+}
+
+.toc-item:hover .toc-num {
+  font-size: 1.6rem;
+  transform: translateY(-2px);
+  color: var(--accent-light);
+  text-shadow: 1px 1px 0 rgba(139, 0, 0, 0.15);
+}
+
+.toc-item:hover a {
+  color: var(--accent);
+}
+
+.toc-item::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: var(--accent);
+  transition: width 0.3s ease;
+}
+
+.toc-item:hover::after {
+  width: 100%;
+}
+
+/* ========== PAGE SYSTEM ========== */
+.pages-wrapper {
+  position: relative;
+  perspective: 2000px;
+}
+
+.page {
+  min-height: 100vh;
+  padding: 3rem 4rem;
+  position: relative;
+  transform-origin: left center;
+  transition: transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+              opacity 0.6s ease;
+  border-bottom: 1px solid rgba(0,0,0,0.08);
+}
+
+.page.turning {
+  transform: rotateY(-90deg);
+  opacity: 0;
+}
+
+.page.turned-in {
+  animation: pageFlipIn 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+}
+
+@keyframes pageFlipIn {
+  0% {
+    transform: rotateY(90deg);
+    opacity: 0;
+  }
+  100% {
+    transform: rotateY(0deg);
+    opacity: 1;
+  }
+}
+
+/* Page shadow during flip */
+.page::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 40px;
+  height: 100%;
+  background: linear-gradient(to left, rgba(0,0,0,0.04), transparent);
+  pointer-events: none;
+}
+
+/* Page number */
+.page-num {
+  position: absolute;
+  bottom: 1.5rem;
+  font-family: var(--serif);
+  font-size: 0.75rem;
+  color: var(--ink-faded);
+  letter-spacing: 0.1em;
+}
+
+.page-num.left { left: 4rem; }
+.page-num.right { right: 4rem; }
+
+/* ========== SECTION HEADERS ========== */
+.section-header {
+  margin-bottom: 2.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--ink);
+  position: relative;
+}
+
+.section-label {
+  font-family: var(--mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 0.3rem;
+}
+
+.section-title {
+  font-family: var(--serif);
+  font-size: clamp(2rem, 4vw, 3.5rem);
+  font-weight: 900;
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+}
+
+/* ========== MAGAZINE GRID ========== */
+.magazine-grid {
+  display: grid;
+  gap: var(--col-gap);
+  margin-bottom: 3rem;
+}
+
+/* Asymmetric 3-column */
+.grid-3-asym {
+  grid-template-columns: 2fr 1.2fr 1fr;
+}
+
+/* Asymmetric 2-column */
+.grid-2-asym {
+  grid-template-columns: 1.6fr 1fr;
+}
+
+/* Reverse asymmetric */
+.grid-3-asym-reverse {
+  grid-template-columns: 1fr 1.5fr 1.2fr;
+}
+
+/* Full width */
+.grid-full {
+  grid-template-columns: 1fr;
+}
+
+/* Column dividers */
+.magazine-grid > * {
+  position: relative;
+}
+
+.magazine-grid > *:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: calc(var(--col-gap) / -2);
+  width: 1px;
+  height: 100%;
+  background: linear-gradient(to bottom, var(--ink) 0%, var(--ink) 30%, transparent 100%);
+}
+
+/* ========== ARTICLE CARDS ========== */
+.article {
+  margin-bottom: 2rem;
+  position: relative;
+}
+
+.article-img-wrap {
+  position: relative;
+  overflow: hidden;
+  margin-bottom: 1rem;
+  background: var(--paper-dark);
+}
+
+.article-img-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  filter: sepia(0.2) contrast(1.05) brightness(0.95);
+  transition: filter 0.5s ease, transform 0.5s ease;
+}
+
+.article-img-wrap:hover img {
+  filter: sepia(0.1) contrast(1.1) brightness(1);
+  transform: scale(1.02);
+}
+
+/* Noise overlay on images */
+.article-img-wrap::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.12'/%3E%3C/svg%3E");
+  mix-blend-mode: overlay;
+}
+
+/* Image caption */
+.article-img-caption {
+  font-family: var(--mono);
+  font-size: 0.65rem;
+  color: var(--ink-faded);
+  margin-top: 0.4rem;
+  font-style: italic;
+  letter-spacing: 0.03em;
+}
+
+/* Article category tag */
+.article-tag {
+  font-family: var(--mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 0.3rem;
+  display: inline-block;
+  border-bottom: 1px solid var(--accent);
+  padding-bottom: 1px;
+}
+
+/* Article headline */
+.article-headline {
+  font-family: var(--serif);
+  font-weight: 700;
+  line-height: 1.2;
+  margin-bottom: 0.6rem;
+  letter-spacing: -0.01em;
+}
+
+.article-headline.hero {
+  font-size: clamp(2rem, 4vw, 3.2rem);
+  font-weight: 900;
+  margin-left: -2rem;
+  padding-left: 2rem;
+}
+
+.article-headline.large {
+  font-size: clamp(1.4rem, 2.5vw, 2rem);
+}
+
+.article-headline.medium {
+  font-size: clamp(1.1rem, 1.8vw, 1.4rem);
+}
+
+.article-headline.small {
+  font-size: 1rem;
+}
+
+/* Article body text */
+.article-body {
+  font-family: var(--mono);
+  font-size: 0.82rem;
+  line-height: 1.8;
+  color: var(--ink-light);
+  margin-bottom: 0.8rem;
+}
+
+.article-body.drop-cap::first-letter {
+  font-family: var(--serif);
+  font-size: 3.5rem;
+  font-weight: 900;
+  float: left;
+  line-height: 0.8;
+  margin: 0.1em 0.15em 0 0;
+  color: var(--accent);
+}
+
+/* Article meta */
+.article-meta {
+  font-family: var(--mono);
+  font-size: 0.65rem;
+  color: var(--ink-faded);
+  letter-spacing: 0.05em;
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+.article-meta .divider {
+  width: 20px;
+  height: 1px;
+  background: var(--ink-faded);
+}
+
+/* ========== FEATURE / HERO ========== */
+.hero-section {
+  display: grid;
+  grid-template-columns: 1.8fr 1fr;
+  gap: 2rem;
+  margin-bottom: 3rem;
+  min-height: 60vh;
+}
+
+.hero-main {
+  position: relative;
+}
+
+.hero-main .article-img-wrap {
+  height: 55vh;
+  margin-bottom: 1.5rem;
+}
+
+.hero-sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  padding-left: 2rem;
+  border-left: 1px solid var(--ink);
+}
+
+.hero-sidebar .article {
+  padding-bottom: 1.5rem;
+  border-bottom: 1px dashed rgba(0,0,0,0.15);
+}
+
+.hero-sidebar .article:last-child {
+  border-bottom: none;
+}
+
+/* ========== PULL QUOTE ========== */
+.pull-quote {
+  font-family: var(--serif);
+  font-size: clamp(1.3rem, 2.5vw, 2rem);
+  font-style: italic;
+  line-height: 1.4;
+  color: var(--ink);
+  padding: 2rem 0;
+  margin: 2rem 0;
+  border-top: 3px solid var(--ink);
+  border-bottom: 1px solid var(--ink);
+  position: relative;
+}
+
+.pull-quote::before {
+  content: '"';
+  font-family: var(--serif);
+  font-size: 6rem;
+  font-style: normal;
+  font-weight: 900;
+  color: var(--accent);
+  opacity: 0.2;
+  position: absolute;
+  top: -0.5rem;
+  left: -0.5rem;
+  line-height: 1;
+}
+
+.pull-quote cite {
+  display: block;
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  font-style: normal;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-faded);
+  margin-top: 0.8rem;
+}
+
+/* ========== DECORATIVE ELEMENTS ========== */
+.ornament {
+  text-align: center;
+  font-family: var(--serif);
+  font-size: 1.5rem;
+  color: var(--ink-faded);
+  margin: 2rem 0;
+  letter-spacing: 0.5em;
+}
+
+.divider-double {
+  border: none;
+  border-top: 4px double var(--ink);
+  margin: 2rem 0;
+}
+
+.divider-thin {
+  border: none;
+  border-top: 1px solid rgba(0,0,0,0.15);
+  margin: 1.5rem 0;
+}
+
+/* Red accent line */
+.accent-bar {
+  width: 60px;
+  height: 3px;
+  background: var(--accent);
+  margin: 1rem 0;
+}
+
+/* ========== SIDEBAR BOXES ========== */
+.sidebar-box {
+  background: var(--paper-dark);
+  border: 1px solid rgba(0,0,0,0.1);
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  position: relative;
+}
+
+.sidebar-box::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 4px;
+  height: 100%;
+  background: var(--accent);
+}
+
+.sidebar-box-title {
+  font-family: var(--serif);
+  font-size: 0.9rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  margin-bottom: 0.8rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid rgba(0,0,0,0.1);
+}
+
+.sidebar-box ul {
+  list-style: none;
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  line-height: 2;
+}
+
+.sidebar-box li::before {
+  content: '→ ';
+  color: var(--accent);
+}
+
+/* ========== COLOPHON (Footer) ========== */
+.colophon {
+  background: var(--ink);
+  color: var(--paper);
+  padding: 3rem 4rem;
+  position: relative;
+}
+
+.colophon::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--accent), var(--gold), var(--accent));
+}
+
+.colophon-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: 3rem;
+  margin-bottom: 2rem;
+}
+
+.colophon-section h4 {
+  font-family: var(--serif);
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 1rem;
+  color: var(--gold);
+}
+
+.colophon-section p,
+.colophon-section li {
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  line-height: 1.8;
+  color: rgba(245, 240, 232, 0.7);
+}
+
+.colophon-section ul {
+  list-style: none;
+}
+
+.colophon-section li::before {
+  content: '· ';
+  color: var(--gold);
+}
+
+.colophon-bottom {
+  border-top: 1px solid rgba(245, 240, 232, 0.15);
+  padding-top: 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.colophon-issn {
+  font-family: var(--mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.15em;
+  color: rgba(245, 240, 232, 0.5);
+}
+
+.colophon-issn span {
+  color: var(--gold);
+  font-weight: 700;
+}
+
+.colophon-legal {
+  font-family: var(--mono);
+  font-size: 0.6rem;
+  color: rgba(245, 240, 232, 0.35);
+  max-width: 500px;
+  line-height: 1.6;
+}
+
+.colophon-stamp {
+  text-align: center;
+  margin-top: 1.5rem;
+  padding-top: 1rem;
+  border-top: 1px dashed rgba(245, 240, 232, 0.1);
+}
+
+.colophon-stamp .stamp-text {
+  font-family: var(--serif);
+  font-size: 0.7rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: rgba(245, 240, 232, 0.25);
+}
+
+/* ========== PAGE FLIP OVERLAY ========== */
+.page-flip-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.page-flip-overlay.active {
+  opacity: 1;
+  pointer-events: all;
+}
+
+.page-flip-overlay .flip-page {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+  background: var(--paper-dark);
+  transform-origin: left center;
+  transform: rotateY(0deg);
+  animation: flipPage 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+  box-shadow: -10px 0 40px rgba(0,0,0,0.3);
+}
+
+@keyframes flipPage {
+  0% { transform: rotateY(0deg); }
+  100% { transform: rotateY(-180deg); }
+}
+
+/* ========== SCROLL ANIMATIONS ========== */
+.reveal {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Staggered children */
+.stagger > * {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.stagger.visible > *:nth-child(1) { transition-delay: 0.1s; opacity: 1; transform: translateY(0); }
+.stagger.visible > *:nth-child(2) { transition-delay: 0.2s; opacity: 1; transform: translateY(0); }
+.stagger.visible > *:nth-child(3) { transition-delay: 0.3s; opacity: 1; transform: translateY(0); }
+.stagger.visible > *:nth-child(4) { transition-delay: 0.4s; opacity: 1; transform: translateY(0); }
+.stagger.visible > *:nth-child(5) { transition-delay: 0.5s; opacity: 1; transform: translateY(0); }
+
+/* ========== RESPONSIVE ========== */
+@media (max-width: 1024px) {
+  .masthead, .toc, .page, .colophon { padding-left: 2rem; padding-right: 2rem; }
+  .grid-3-asym, .grid-3-asym-reverse { grid-template-columns: 1fr 1fr; }
+  .hero-section { grid-template-columns: 1fr; min-height: auto; }
+  .hero-sidebar { border-left: none; padding-left: 0; border-top: 1px solid var(--ink); padding-top: 1.5rem; }
+  .colophon-grid { grid-template-columns: 1fr 1fr; }
+  .article-headline.hero { margin-left: 0; }
+}
+
+@media (max-width: 640px) {
+  .masthead, .toc, .page, .colophon { padding-left: 1rem; padding-right: 1rem; }
+  .grid-3-asym, .grid-3-asym-reverse, .grid-2-asym { grid-template-columns: 1fr; }
+  .magazine-grid > *:not(:last-child)::after { display: none; }
+  .toc { flex-direction: column; gap: 1rem; }
+  .colophon-grid { grid-template-columns: 1fr; }
+  .masthead-title { font-size: 2.5rem; }
+}
+
+/* ========== PRINT CROP MARKS ========== */
+.crop-marks {
+  position: fixed;
+  top: 10px;
+  right: 10px;
+  z-index: 100;
+  opacity: 0.15;
+}
+
+.crop-mark {
+  width: 20px;
+  height: 20px;
+  position: relative;
+}
+
+.crop-mark::before,
+.crop-mark::after {
+  content: '';
+  position: absolute;
+  background: var(--ink);
+}
+
+.crop-mark::before {
+  width: 1px;
+  height: 20px;
+  left: 10px;
+  top: 0;
+}
+
+.crop-mark::after {
+  width: 20px;
+  height: 1px;
+  left: 0;
+  top: 10px;
+}
+
+/* ========== LOADING ========== */
+.loading-screen {
+  position: fixed;
+  inset: 0;
+  background: var(--ink);
+  z-index: 100000;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.8s ease, visibility 0.8s;
+}
+
+.loading-screen.hidden {
+  opacity: 0;
+  visibility: hidden;
+}
+
+.loading-text {
+  font-family: var(--serif);
+  font-size: 2rem;
+  font-weight: 900;
+  color: var(--paper);
+  letter-spacing: 0.1em;
+  animation: loadPulse 1.5s ease-in-out infinite;
+}
+
+.loading-sub {
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  color: rgba(245,240,232,0.4);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  margin-top: 1rem;
+}
+
+@keyframes loadPulse {
+  0%, 100% { opacity: 0.4; }
+  50% { opacity: 1; }
+}
+</style>
+</head>
+<body>
+
+<!-- Loading Screen -->
+<div class="loading-screen" id="loadingScreen">
+  <div class="loading-text">THE DAILY HOTSPOT</div>
+  <div class="loading-sub">Loading today's edition...</div>
+</div>
+
+<!-- Crop marks -->
+<div class="crop-marks">
+  <div class="crop-mark"></div>
+</div>
+
+<!-- ==================== MASTHEAD ==================== -->
+<header class="masthead reveal">
+  <div class="masthead-top">
+    <span>Vol. XXVI · No. 177</span>
+    <span>2026年6月26日 · 星期五</span>
+    <span>零售价 ¥0.00</span>
+  </div>
+  <h1 class="masthead-title">
+    每日热点
+    <span>The Daily Hotspot · Est. 2026 · "All the News That's Fit to Pixel"</span>
+  </h1>
+  <div class="masthead-rule">
+    <span>第六版 · 晚间版</span>
+    <span>·</span>
+    <span>FINAL EVENING EDITION</span>
+    <span>·</span>
+    <span>北京 · 上海 · 纽约 · 伦敦</span>
+  </div>
+</header>
+
+<!-- ==================== TABLE OF CONTENTS ==================== -->
+<nav class="toc reveal">
+  <span class="toc-label">本期目录 ·<br>Contents</span>
+  <ul class="toc-items">
+    <li class="toc-item"><a href="#sec-feature"><span class="toc-num">01</span> 头条专题</a></li>
+    <li class="toc-item"><a href="#sec-world"><span class="toc-num">02</span> 国际风云</a></li>
+    <li class="toc-item"><a href="#sec-economy"><span class="toc-num">03</span> 经济观察</a></li>
+    <li class="toc-item"><a href="#sec-culture"><span class="toc-num">04</span> 文化艺术</a></li>
+    <li class="toc-item"><a href="#sec-tech"><span class="toc-num">05</span> 科技前沿</a></li>
+    <li class="toc-item"><a href="#sec-opinion"><span class="toc-num">06</span> 观点评论</a></li>
+  </ul>
+</nav>
+
+<!-- ==================== PAGE 1: FEATURE ==================== -->
+<section class="page" id="sec-feature">
+  <div class="section-header reveal">
+    <div class="section-label">Section 01 · 头条专题</div>
+    <h2 class="section-title">今日头条</h2>
+  </div>
+
+  <div class="hero-section stagger">
+    <div class="hero-main">
+      <div class="article">
+        <div class="article-img-wrap">
+          <img src="https://images.unsplash.com/photo-1504711434969-e33886168d5c?w=900&h=500&fit=crop" alt="新闻编辑部">
+        </div>
+        <div class="article-img-caption">图：编辑部深夜工作场景 · 摄影 / 本报特约记者</div>
+        <div class="accent-bar"></div>
+        <span class="article-tag">深度报道 · Investigative</span>
+        <h3 class="article-headline hero">委内瑞拉遭遇双重地震袭击<br>拉瓜伊拉沿海小镇近600人遇难</h3>
+        <p class="article-body drop-cap">据委内瑞拉分析通讯社6月25日报道，委内瑞拉当日连续发生两次强烈地震，首都加拉加斯以北的拉瓜伊拉沿海小镇遭受重创。截至6月26日，地震已造成近600人死亡，约1000人受伤。政府已宣布进入紧急状态，国际救援力量正在集结。这是该地区近年来最严重的自然灾害之一，当地基础设施遭受毁灭性打击。</p>
+        <div class="article-meta">
+          <span>综合报道</span>
+          <span class="divider"></span>
+          <span>Venezuela Analysis · AFP</span>
+          <span class="divider"></span>
+          <span>2026.06.26</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="hero-sidebar">
+      <div class="article">
+        <span class="article-tag">国际政治</span>
+        <h3 class="article-headline large">古巴推行划时代市场化改革</h3>
+        <p class="article-body">古巴正在进行革命以来最大规模的经济转型，推行一系列自由市场改革措施，旨在开放岛国经济。这一历史性转向引发国际社会广泛关注。</p>
+        <div class="article-meta">
+          <span>Associated Press</span>
+          <span class="divider"></span>
+          <span>06.19</span>
+        </div>
+      </div>
+
+      <div class="article">
+        <span class="article-tag">地缘政治</span>
+        <h3 class="article-headline large">俄罗斯支持非洲殖民赔偿诉求</h3>
+        <p class="article-body">前俄罗斯总统梅德韦杰夫宣布支持非洲国家提出的殖民赔偿要求，并呼吁将殖民主义认定为反人类罪。</p>
+        <div class="article-meta">
+          <span>RT News</span>
+          <span class="divider"></span>
+          <span>06.25</span>
+        </div>
+      </div>
+
+      <div class="article">
+        <span class="article-tag">中东局势</span>
+        <h3 class="article-headline medium">以色列空袭黎巴嫩纳巴提耶市</h3>
+        <p class="article-body">尽管以色列与真主党刚宣布新停火协议仅一天，以军便对黎巴嫩南部城市发动新一轮空袭。</p>
+        <div class="article-meta">
+          <span>AFP</span>
+          <span class="divider"></span>
+          <span>06.10</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="ornament">◆ ◆ ◆</div>
+  <span class="page-num left">— 2 —</span>
+</section>
+
+<!-- ==================== PAGE 2: WORLD ==================== -->
+<section class="page" id="sec-world">
+  <div class="section-header reveal">
+    <div class="section-label">Section 02 · 国际风云</div>
+    <h2 class="section-title">环球视野</h2>
+  </div>
+
+  <div class="magazine-grid grid-3-asym stagger">
+    <div>
+      <div class="article">
+        <div class="article-img-wrap">
+          <img src="https://images.unsplash.com/photo-1529107386315-e1a2ed48a620?w=600&h=400&fit=crop" alt="德黑兰街景">
+        </div>
+        <div class="article-img-caption">德黑兰街头 · 资料照片</div>
+        <span class="article-tag">伊朗专题</span>
+        <h3 class="article-headline large">伊朗忠诚派推动更广泛的民族主义<br>包括包容未戴头巾女性</h3>
+        <p class="article-body drop-cap">据《纽约时报》6月24日报道，伊朗国内正在出现一种新的政治动向——忠诚派力量正在推动一种更具包容性的民族主义叙事，甚至将未戴头巾的女性也纳入国家认同的框架之中。这一变化标志着伊朗社会内部正在经历深层次的观念转变。</p>
+        <div class="article-meta">
+          <span>The New York Times</span>
+          <span class="divider"></span>
+          <span>06.24</span>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <div class="article">
+        <span class="article-tag">深度分析</span>
+        <h3 class="article-headline medium">铜矿争夺战：美中关键供应链博弈</h3>
+        <p class="article-body">《南华早报》深入报道了美国与中国围绕全球铜供应链展开的战略竞争。铜作为电动汽车和可再生能源的核心原材料，正成为大国博弈的新战场。</p>
+        <div class="accent-bar"></div>
+        <div class="article-meta">
+          <span>SCMP</span>
+          <span class="divider"></span>
+          <span>06.23</span>
+        </div>
+      </div>
+
+      <div class="pull-quote">
+        铜是新时代的石油——谁控制了铜供应链，谁就掌握了绿色转型的钥匙。
+        <cite>— 南华早报分析团队</cite>
+      </div>
+
+      <div class="article">
+        <span class="article-tag">社会</span>
+        <h3 class="article-headline medium">上海国际养老康复展开幕</h3>
+        <p class="article-body">6月4日至6日，2026上海国际养老康复博览会在上海新国际博览中心举行，展览面积达6万平方米，汇聚22个国家和地区近680家领军企业。</p>
+        <div class="article-meta">
+          <span>上海市政府外事办</span>
+          <span class="divider"></span>
+          <span>06.04</span>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <div class="sidebar-box">
+        <h4 class="sidebar-box-title">今日快讯</h4>
+        <ul>
+          <li>中国商业秘密保护规定6月1日正式施行</li>
+          <li>涉外民事诉讼管辖规则进一步完善</li>
+          <li>重庆第四届城市艺术节开幕，展出万余件作品</li>
+          <li>四川美术学院毕业展与艺术节联动</li>
+          <li>上海消费券发放百万元助力文创产业</li>
+        </ul>
+      </div>
+
+      <div class="sidebar-box">
+        <h4 class="sidebar-box-title">数据速览</h4>
+        <ul>
+          <li>600人 — 委内瑞拉地震遇难人数</li>
+          <li>680家 — 上海养老展参展企业数</li>
+          <li>22国 — 养老展覆盖国家和地区</li>
+          <li>10,000+ — 重庆艺术节展出作品数</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider-double">
+  <span class="page-num right">— 3 —</span>
+</section>
+
+<!-- ==================== PAGE 3: ECONOMY ==================== -->
+<section class="page" id="sec-economy">
+  <div class="section-header reveal">
+    <div class="section-label">Section 03 · 经济观察</div>
+    <h2 class="section-title">经济脉搏</h2>
+  </div>
+
+  <div class="magazine-grid grid-2-asym stagger">
+    <div>
+      <div class="article">
+        <div class="article-img-wrap">
+          <img src="https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=700&h=450&fit=crop" alt="交易所">
+        </div>
+        <div class="article-img-caption">全球资本市场波动加剧 · 资料图</div>
+        <span class="article-tag">全球经济</span>
+        <h3 class="article-headline hero">全球铜矿供应链面临重塑<br>绿色转型加速资源争夺</h3>
+        <p class="article-body drop-cap">随着全球向清洁能源转型的步伐加快，铜作为电动汽车电池、风力发电机组和太阳能板的核心原材料，其战略地位正被重新定义。美中两国围绕铜矿开采权、加工能力和长期供应合约展开激烈竞争，这场"铜矿争夺战"正在重塑全球资源版图。</p>
+        <div class="article-meta">
+          <span>深度分析</span>
+          <span class="divider"></span>
+          <span>South China Morning Post</span>
+        </div>
+      </div>
+
+      <div class="pull-quote">
+        当一个岛屿国家开始拥抱市场，整个加勒比海的政治经济格局都将被重新书写。
+        <cite>— 关于古巴经济改革的评论</cite>
+      </div>
+    </div>
+
+    <div>
+      <div class="article">
+        <span class="article-tag">拉美经济</span>
+        <h3 class="article-headline large">古巴经济改革：革命以来最大胆的转型</h3>
+        <p class="article-body">古巴政府正在推行一系列前所未有的自由市场改革措施，这是自1959年革命以来该国最大规模的经济转型。改革涵盖私营企业许可、外资准入和货币体系等多个关键领域。</p>
+        <div class="accent-bar"></div>
+        <div class="article-meta">
+          <span>Associated Press</span>
+          <span class="divider"></span>
+          <span>06.18–19</span>
+        </div>
+      </div>
+
+      <div class="article">
+        <span class="article-tag">国际贸易</span>
+        <h3 class="article-headline medium">贸易秘密保护新规正式施行</h3>
+        <p class="article-body">《商业秘密保护规定》于2026年6月1日正式生效，进一步细化了商业秘密的认定标准和保护措施，为企业知识产权保护提供了更明确的法律框架。</p>
+        <div class="article-meta">
+          <span>法律法规</span>
+          <span class="divider"></span>
+          <span>06.01</span>
+        </div>
+      </div>
+
+      <div class="sidebar-box">
+        <h4 class="sidebar-box-title">本周经济日历</h4>
+        <ul>
+          <li>06/27 — 中国工业企业利润数据公布</li>
+          <li>06/28 — 欧洲央行利率决议</li>
+          <li>06/30 — 中国6月PMI数据发布</li>
+          <li>07/01 — 美国非农就业报告</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="ornament">— ✦ —</div>
+  <span class="page-num left">— 4 —</span>
+</section>
+
+<!-- ==================== PAGE 4: CULTURE ==================== -->
+<section class="page" id="sec-culture">
+  <div class="section-header reveal">
+    <div class="section-label">Section 04 · 文化艺术</div>
+    <h2 class="section-title">艺文志</h2>
+  </div>
+
+  <div class="magazine-grid grid-3-asym-reverse stagger">
+    <div>
+      <div class="article">
+        <span class="article-tag">艺术节</span>
+        <h3 class="article-headline medium">重庆"六月花开"城市艺术节启幕</h3>
+        <p class="article-body">第四届重庆城市艺术节与四川美术学院毕业展首次联动，万余件作品、百余场公共活动，百万元消费券让艺术走进市民生活。</p>
+        <div class="article-meta">
+          <span>四川美术学院</span>
+          <span class="divider"></span>
+          <span>05.26–06.26</span>
+        </div>
+      </div>
+
+      <div class="sidebar-box">
+        <h4 class="sidebar-box-title">文化日历</h4>
+        <ul>
+          <li>06/26 — 重庆艺术节闭幕</li>
+          <li>06/28 — 上海夏季音乐节开幕</li>
+          <li>07/01 — 故宫暑期特展预展</li>
+          <li>07/05 — 北京国际戏剧季</li>
+        </ul>
+      </div>
+    </div>
+
+    <div>
+      <div class="article">
+        <div class="article-img-wrap">
+          <img src="https://images.unsplash.com/photo-1513364776144-60967b0f800f?w=700&h=500&fit=crop" alt="艺术展览">
+        </div>
+        <div class="article-img-caption">艺术与城市的对话 · 示意图</div>
+        <span class="article-tag">深度</span>
+        <h3 class="article-headline large">当艺术遇见城市：重庆的文创实验</h3>
+        <p class="article-body drop-cap">艺术是城市的灵魂，青年是它的未来。重庆正在尝试一种全新的城市文化发展模式——将毕业展览、城市艺术节和消费促进三者有机结合，创造出一个独特的文创生态系统。展览面积覆盖城市多个地标空间，让艺术真正融入日常生活。</p>
+        <div class="article-meta">
+          <span>专题报道</span>
+          <span class="divider"></span>
+          <span>SCFAI</span>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <div class="article">
+        <div class="article-img-wrap">
+          <img src="https://images.unsplash.com/photo-1460661419201-fd4cecdf8a8b?w=500&h=350&fit=crop" alt="书法">
+        </div>
+        <div class="article-img-caption">传统与现代的碰撞</div>
+        <span class="article-tag">评论</span>
+        <h3 class="article-headline medium">从毕业展看中国当代艺术新趋势</h3>
+        <p class="article-body">新一代艺术家正在用数字工具重新定义传统媒介，从油画到装置艺术，从书法到AI生成艺术，边界正在消融。</p>
+        <div class="article-meta">
+          <span>艺术评论</span>
+          <span class="divider"></span>
+          <span>06.26</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider-thin">
+  <span class="page-num right">— 5 —</span>
+</section>
+
+<!-- ==================== PAGE 5: TECH ==================== -->
+<section class="page" id="sec-tech">
+  <div class="section-header reveal">
+    <div class="section-label">Section 05 · 科技前沿</div>
+    <h2 class="section-title">科技速递</h2>
+  </div>
+
+  <div class="magazine-grid grid-2-asym stagger">
+    <div>
+      <div class="article">
+        <div class="article-img-wrap">
+          <img src="https://images.unsplash.com/photo-1677442136019-21780ecad995?w=700&h=400&fit=crop" alt="AI技术">
+        </div>
+        <div class="article-img-caption">人工智能技术持续演进 · 资料图</div>
+        <span class="article-tag">AI · 人工智能</span>
+        <h3 class="article-headline hero">AI代理时代：从工具到伙伴的跨越</h3>
+        <p class="article-body drop-cap">2026年上半年，AI代理（AI Agent）技术迎来爆发式发展。从简单的问答工具到能够自主规划、执行复杂任务的智能伙伴，AI正在经历一场范式转变。各大科技公司纷纷推出自己的代理框架，试图在这个新兴市场占据先机。</p>
+        <div class="article-meta">
+          <span>科技观察</span>
+          <span class="divider"></span>
+          <span>2026.06</span>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <div class="article">
+        <span class="article-tag">半导体</span>
+        <h3 class="article-headline medium">芯片战争新篇章：先进封装技术成焦点</h3>
+        <p class="article-body">随着摩尔定律逐渐逼近物理极限，先进封装技术正成为半导体行业新的竞争前沿。中国在这一领域正加速追赶。</p>
+        <div class="accent-bar"></div>
+        <div class="article-meta">
+          <span>行业分析</span>
+          <span class="divider"></span>
+          <span>06.25</span>
+        </div>
+      </div>
+
+      <div class="article">
+        <span class="article-tag">绿色科技</span>
+        <h3 class="article-headline medium">固态电池商用化进程提速</h3>
+        <p class="article-body">多家车企和电池制造商宣布固态电池量产时间表提前，预计2027年将有首批搭载固态电池的电动汽车上市。</p>
+        <div class="article-meta">
+          <span>新能源</span>
+          <span class="divider"></span>
+          <span>06.24</span>
+        </div>
+      </div>
+
+      <div class="article">
+        <span class="article-tag">太空探索</span>
+        <h3 class="article-headline medium">月球南极水冰开采方案获批</h3>
+        <p class="article-body">国际月球科研站合作框架下，首个月球南极水冰资源开采技术方案获得批准，标志着月球资源利用进入实质性阶段。</p>
+        <div class="article-meta">
+          <span>航天科技</span>
+          <span class="divider"></span>
+          <span>06.23</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="ornament">◆ ◆ ◆</div>
+  <span class="page-num left">— 6 —</span>
+</section>
+
+<!-- ==================== PAGE 6: OPINION ==================== -->
+<section class="page" id="sec-opinion">
+  <div class="section-header reveal">
+    <div class="section-label">Section 06 · 观点评论</div>
+    <h2 class="section-title">观点</h2>
+  </div>
+
+  <div class="magazine-grid grid-2-asym stagger">
+    <div>
+      <div class="article">
+        <span class="article-tag">社论</span>
+        <h3 class="article-headline large">2026年中局：世界秩序的重新校准</h3>
+        <p class="article-body drop-cap">2026年行至中局，全球政治经济格局正在经历深刻调整。从古巴的经济转型到中东的停火博弈，从铜矿供应链的重塑到AI代理的崛起，每一个事件都不是孤立的——它们共同指向一个正在重新校准的世界秩序。在这个充满不确定性的时代，我们需要的不是预测未来的能力，而是理解当下的智慧。</p>
+        <div class="article-meta">
+          <span>本报编辑部</span>
+          <span class="divider"></span>
+          <span>2026.06.26</span>
+        </div>
+      </div>
+
+      <div class="pull-quote">
+        殖民主义不应只是历史课本中的章节——它是一个需要被正式认定的罪行。
+        <cite>— 德米特里·梅德韦杰夫，前俄罗斯总统</cite>
+      </div>
+    </div>
+
+    <div>
+      <div class="article">
+        <span class="article-tag">专栏</span>
+        <h3 class="article-headline medium">铜与芯片：大国竞争的两条主线</h3>
+        <p class="article-body">如果说芯片是数字时代的大脑，那么铜就是它的血管。2026年的全球竞争，正在沿着这两条主线展开。谁能在上游资源和尖端技术两个维度同时占据优势，谁就能在下一个十年掌握主动权。</p>
+        <div class="article-meta">
+          <span>特约评论员</span>
+          <span class="divider"></span>
+          <span>06.26</span>
+        </div>
+      </div>
+
+      <div class="article">
+        <span class="article-tag">来论</span>
+        <h3 class="article-headline medium">伊朗的民族主义新叙事意味着什么</h3>
+        <p class="article-body">当一个政权开始将曾经的"异见者"纳入国家认同时，这究竟是真正的开放，还是一种更精妙的控制策略？答案可能比我们想象的更复杂。</p>
+        <div class="article-meta">
+          <span>国际观察</span>
+          <span class="divider"></span>
+          <span>06.25</span>
+        </div>
+      </div>
+
+      <div class="sidebar-box">
+        <h4 class="sidebar-box-title">读者来信</h4>
+        <ul>
+          <li>"深度报道让我看到了新闻背后的逻辑" — 北京读者</li>
+          <li>"多栏排版太有质感了" — 上海读者</li>
+          <li>"希望增加环境议题的报道" — 广州读者</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <span class="page-num right">— 7 —</span>
+</section>
+
+<!-- ==================== COLOPHON / FOOTER ==================== -->
+<footer class="colophon reveal">
+  <div class="colophon-grid">
+    <div class="colophon-section">
+      <h4>关于本报 · About</h4>
+      <p>《每日热点》(THE DAILY HOTSPOT) 创刊于2026年，是一份以90年代印刷杂志美学为灵感的数字化新闻日报。我们相信新闻不仅需要被阅读，更需要被感受。每一个排版细节都是对信息时代的致敬与反思。</p>
+    </div>
+    <div class="colophon-section">
+      <h4>编辑部 · Editorial</h4>
+      <ul>
+        <li>主编：AI编辑部</li>
+        <li>美术总监：像素工坊</li>
+        <li>国际通讯员：全球网络</li>
+        <li>技术支撑：OpenClaw</li>
+      </ul>
+    </div>
+    <div class="colophon-section">
+      <h4>联系方式 · Contact</h4>
+      <ul>
+        <li>编辑部邮箱：editor@dailyhotspot.ai</li>
+        <li>广告合作：ads@dailyhotspot.ai</li>
+        <li>读者热线：400-HOTSPOT</li>
+        <li>社交媒体：@DailyHotspot</li>
+      </ul>
+    </div>
+    <div class="colophon-section">
+      <h4>订阅 · Subscribe</h4>
+      <ul>
+        <li>数字版：免费</li>
+        <li>印刷复刻版：¥99/年</li>
+        <li>机构授权：面议</li>
+        <li>RSS订阅：已支持</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="colophon-bottom">
+    <div class="colophon-issn">
+      <span>ISSN 2026-0626</span> · CN 11-0000/TP · 邮发代号 82-000<br>
+      国内统一连续出版物号 · 国际标准连续出版物号
+    </div>
+    <div class="colophon-legal">
+      本报内容由AI自动生成，仅供预览参考。所引用新闻来源均已标注。本报保留所有权利，未经许可不得转载。本报采用90年代印刷杂志美学设计，致敬信息时代的黄金年代。所有图片来自Unsplash，遵循其许可证协议。
+    </div>
+  </div>
+
+  <div class="colophon-stamp">
+    <div class="stamp-text">— Printed on recycled pixels · 以回收像素印制 · Est. MMXXVI —</div>
+  </div>
+</footer>
+
+<!-- ==================== JAVASCRIPT ==================== -->
+<script>
+// Loading screen
+window.addEventListener('load', () => {
+  setTimeout(() => {
+    document.getElementById('loadingScreen').classList.add('hidden');
+  }, 800);
+});
+
+// Scroll reveal (Intersection Observer)
+const revealObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+      revealObserver.unobserve(entry.target);
+    }
+  });
+}, {
+  threshold: 0.1,
+  rootMargin: '0px 0px -50px 0px'
+});
+
+document.querySelectorAll('.reveal, .stagger').forEach(el => {
+  revealObserver.observe(el);
+});
+
+// Page flip effect on navigation click
+document.querySelectorAll('.toc-item a').forEach(link => {
+  link.addEventListener('click', (e) => {
+    e.preventDefault();
+    const target = document.querySelector(link.getAttribute('href'));
+    if (!target) return;
+
+    // Add flip animation
+    target.classList.add('turning');
+    setTimeout(() => {
+      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      target.classList.remove('turning');
+      target.classList.add('turned-in');
+      setTimeout(() => target.classList.remove('turned-in'), 800);
+    }, 400);
+  });
+});
+
+// Parallax-lite for masthead
+window.addEventListener('scroll', () => {
+  const masthead = document.querySelector('.masthead-title');
+  if (masthead) {
+    const scroll = window.scrollY;
+    masthead.style.transform = `translateX(${-scroll * 0.02}px)`;
+  }
+}, { passive: true });
+
+// Typewriter effect for loading
+const loadingText = document.querySelector('.loading-text');
+if (loadingText) {
+  const text = loadingText.textContent;
+  loadingText.textContent = '';
+  let i = 0;
+  const typeInterval = setInterval(() => {
+    loadingText.textContent += text[i];
+    i++;
+    if (i >= text.length) clearInterval(typeInterval);
+  }, 80);
+}
+</script>
+</body>
+</html>
